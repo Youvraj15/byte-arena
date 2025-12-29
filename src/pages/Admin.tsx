@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Plus, 
   Trash2, 
@@ -12,7 +12,12 @@ import {
   ChevronDown,
   Loader2,
   CheckCircle2,
-  ArrowLeft
+  ArrowLeft,
+  Users,
+  Trophy,
+  Clock,
+  LogOut,
+  Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +43,19 @@ interface Challenge {
   testCases: TestCase[];
 }
 
+interface Student {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  problemsSolved: number;
+  totalSubmissions: number;
+  rank: number;
+  lastActive: string;
+  status: "online" | "offline" | "solving";
+  currentProblem?: string;
+}
+
 const initialChallenges: Challenge[] = [
   {
     id: 1,
@@ -52,13 +70,40 @@ const initialChallenges: Challenge[] = [
   },
 ];
 
+const mockStudents: Student[] = [
+  { id: 1, name: "Alex Johnson", email: "alex@example.com", avatar: "AJ", problemsSolved: 45, totalSubmissions: 120, rank: 1, lastActive: "2 min ago", status: "solving", currentProblem: "Two Sum" },
+  { id: 2, name: "Sarah Chen", email: "sarah@example.com", avatar: "SC", problemsSolved: 42, totalSubmissions: 98, rank: 2, lastActive: "5 min ago", status: "online" },
+  { id: 3, name: "Mike Brown", email: "mike@example.com", avatar: "MB", problemsSolved: 38, totalSubmissions: 85, rank: 3, lastActive: "1 hour ago", status: "offline" },
+  { id: 4, name: "Emily Davis", email: "emily@example.com", avatar: "ED", problemsSolved: 35, totalSubmissions: 72, rank: 4, lastActive: "Just now", status: "solving", currentProblem: "Valid Parentheses" },
+  { id: 5, name: "James Wilson", email: "james@example.com", avatar: "JW", problemsSolved: 32, totalSubmissions: 68, rank: 5, lastActive: "15 min ago", status: "online" },
+  { id: 6, name: "Lisa Taylor", email: "lisa@example.com", avatar: "LT", problemsSolved: 28, totalSubmissions: 55, rank: 6, lastActive: "3 hours ago", status: "offline" },
+  { id: 7, name: "David Martinez", email: "david@example.com", avatar: "DM", problemsSolved: 25, totalSubmissions: 48, rank: 7, lastActive: "30 min ago", status: "online" },
+  { id: 8, name: "Anna White", email: "anna@example.com", avatar: "AW", problemsSolved: 22, totalSubmissions: 42, rank: 8, lastActive: "2 hours ago", status: "offline" },
+];
+
 export default function Admin() {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<"challenges" | "students">("challenges");
+  const [students] = useState<Student[]>(mockStudents);
   const [challenges, setChallenges] = useState<Challenge[]>(initialChallenges);
   const [editingChallenge, setEditingChallenge] = useState<Challenge | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [aiProvider, setAiProvider] = useState<"chatgpt" | "gemini">("chatgpt");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTestCases, setGeneratedTestCases] = useState<TestCase[]>([]);
+
+  // Check admin authentication
+  useEffect(() => {
+    const isAdmin = localStorage.getItem("adminAuth");
+    if (!isAdmin) {
+      navigate("/admin-login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuth");
+    navigate("/admin-login");
+  };
 
   const [newChallenge, setNewChallenge] = useState<Omit<Challenge, "id">>({
     title: "",
@@ -174,15 +219,161 @@ export default function Admin() {
           <div className="h-4 w-px bg-border" />
           <h1 className="text-lg font-semibold text-foreground">Admin Panel</h1>
         </div>
-        <Link to="/challenges">
-          <Button variant="outline" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Challenges
+        <div className="flex items-center gap-2">
+          <Link to="/challenges">
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Challenges
+            </Button>
+          </Link>
+          <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <LogOut className="h-4 w-4 mr-2" />
+            Logout
           </Button>
-        </Link>
+        </div>
       </header>
 
+      {/* Tab Navigation */}
+      <div className="border-b border-border bg-card">
+        <div className="container mx-auto px-4">
+          <div className="flex gap-1">
+            <button
+              onClick={() => setActiveTab("challenges")}
+              className={cn(
+                "px-4 py-3 text-sm font-medium transition-colors relative",
+                activeTab === "challenges" 
+                  ? "text-primary" 
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <Trophy className="h-4 w-4" />
+                Challenges
+              </div>
+              {activeTab === "challenges" && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("students")}
+              className={cn(
+                "px-4 py-3 text-sm font-medium transition-colors relative",
+                activeTab === "students" 
+                  ? "text-primary" 
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Students
+              </div>
+              {activeTab === "students" && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-8">
+        {activeTab === "students" ? (
+          /* Students Monitoring Section */
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-display font-bold text-foreground">Student Monitoring</h2>
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                  <span className="text-muted-foreground">
+                    {students.filter(s => s.status === "online" || s.status === "solving").length} Online
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span className="text-muted-foreground">
+                    {students.filter(s => s.status === "solving").length} Solving
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Students Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {students.map((student) => (
+                <motion.div
+                  key={student.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-colors"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="relative">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                        {student.avatar}
+                      </div>
+                      <div className={cn(
+                        "absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-card",
+                        student.status === "online" && "bg-success",
+                        student.status === "solving" && "bg-primary animate-pulse",
+                        student.status === "offline" && "bg-muted-foreground"
+                      )} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-foreground truncate">{student.name}</h3>
+                      <p className="text-xs text-muted-foreground truncate">{student.email}</p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      #{student.rank}
+                    </Badge>
+                  </div>
+
+                  {student.status === "solving" && student.currentProblem && (
+                    <div className="mt-3 p-2 bg-primary/5 border border-primary/20 rounded-lg">
+                      <div className="flex items-center gap-2 text-xs">
+                        <Eye className="h-3 w-3 text-primary" />
+                        <span className="text-primary font-medium">Currently solving:</span>
+                      </div>
+                      <p className="text-sm text-foreground mt-1">{student.currentProblem}</p>
+                    </div>
+                  )}
+
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="h-3 w-3 text-success" />
+                      <span className="text-muted-foreground">{student.problemsSolved} solved</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Trophy className="h-3 w-3 text-warning" />
+                      <span className="text-muted-foreground">{student.totalSubmissions} submissions</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 pt-3 border-t border-border flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Clock className="h-3 w-3" />
+                      {student.lastActive}
+                    </div>
+                    <Badge 
+                      variant="secondary" 
+                      className={cn(
+                        "text-xs",
+                        student.status === "online" && "bg-success/10 text-success",
+                        student.status === "solving" && "bg-primary/10 text-primary",
+                        student.status === "offline" && "bg-muted text-muted-foreground"
+                      )}
+                    >
+                      {student.status}
+                    </Badge>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Challenge List */}
           <div className="space-y-6">
@@ -485,6 +676,7 @@ export default function Admin() {
             )}
           </div>
         </div>
+        )}
       </div>
     </div>
   );
