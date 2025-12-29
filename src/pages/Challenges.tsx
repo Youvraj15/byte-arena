@@ -245,7 +245,6 @@ export default function Challenges() {
                   <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Title</th>
                   <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Category</th>
                   <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Difficulty</th>
-                  <th className="text-right text-sm font-medium text-muted-foreground px-6 py-4">Acceptance</th>
                 </tr>
               </thead>
               <tbody>
@@ -277,9 +276,6 @@ export default function Challenges() {
                       <span className={cn("font-medium text-sm", getDifficultyColor(challenge.difficulty))}>
                         {challenge.difficulty}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 text-right text-muted-foreground">
-                      {challenge.acceptance}%
                     </td>
                   </motion.tr>
                 ))}

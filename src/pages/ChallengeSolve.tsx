@@ -11,7 +11,7 @@ import {
   XCircle,
   ChevronDown,
   Lightbulb,
-  MessageSquare,
+  Trophy,
   FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -155,9 +155,9 @@ export default function ChallengeSolve() {
                 <Lightbulb className="h-4 w-4 mr-1" />
                 Solutions
               </TabsTrigger>
-              <TabsTrigger value="discussions" className="text-sm data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none">
-                <MessageSquare className="h-4 w-4 mr-1" />
-                Discussions
+              <TabsTrigger value="leaderboard" className="text-sm data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none">
+                <Trophy className="h-4 w-4 mr-1" />
+                Leaderboard
               </TabsTrigger>
             </TabsList>
 
@@ -227,10 +227,47 @@ export default function ChallengeSolve() {
               </div>
             </TabsContent>
 
-            <TabsContent value="discussions" className="flex-1 overflow-auto p-6 mt-0">
-              <div className="text-center py-12 text-muted-foreground">
-                <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No discussions yet. Be the first to start one!</p>
+            <TabsContent value="leaderboard" className="flex-1 overflow-auto p-6 mt-0">
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground">Challenge Leaderboard</h3>
+                <div className="space-y-2">
+                  {[
+                    { rank: 1, name: "Alex Chen", time: "12ms", language: "C++", date: "2024-01-15" },
+                    { rank: 2, name: "Sarah Miller", time: "15ms", language: "Python", date: "2024-01-14" },
+                    { rank: 3, name: "John Doe", time: "18ms", language: "Java", date: "2024-01-13" },
+                    { rank: 4, name: "Emily Wang", time: "22ms", language: "C++", date: "2024-01-12" },
+                    { rank: 5, name: "Mike Johnson", time: "25ms", language: "Python", date: "2024-01-11" },
+                  ].map((entry) => (
+                    <div 
+                      key={entry.rank} 
+                      className={cn(
+                        "flex items-center justify-between p-3 rounded-lg border",
+                        entry.rank === 1 && "bg-yellow-500/10 border-yellow-500/30",
+                        entry.rank === 2 && "bg-gray-300/10 border-gray-300/30",
+                        entry.rank === 3 && "bg-amber-600/10 border-amber-600/30",
+                        entry.rank > 3 && "bg-muted/50 border-border"
+                      )}
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className={cn(
+                          "w-8 h-8 flex items-center justify-center rounded-full font-bold text-sm",
+                          entry.rank === 1 && "bg-yellow-500 text-yellow-950",
+                          entry.rank === 2 && "bg-gray-300 text-gray-800",
+                          entry.rank === 3 && "bg-amber-600 text-amber-950",
+                          entry.rank > 3 && "bg-muted text-muted-foreground"
+                        )}>
+                          {entry.rank}
+                        </span>
+                        <span className="font-medium text-foreground">{entry.name}</span>
+                      </div>
+                      <div className="flex items-center gap-6 text-sm">
+                        <span className="text-success font-mono">{entry.time}</span>
+                        <span className="text-muted-foreground">{entry.language}</span>
+                        <span className="text-muted-foreground">{entry.date}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </TabsContent>
           </Tabs>
