@@ -6,7 +6,6 @@ import {
   Swords, 
   Trophy, 
   User, 
-  Settings,
   LogOut,
   Menu,
   X,
@@ -21,7 +20,6 @@ const sidebarLinks = [
   { name: "Challenges", href: "/challenges", icon: Swords },
   { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
   { name: "Profile", href: "/profile", icon: User },
-  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 interface DashboardLayoutProps {
