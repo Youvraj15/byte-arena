@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { motion } from "framer-motion";
 import { 
@@ -8,13 +7,9 @@ import {
   TrendingUp,
   TrendingDown,
   Minus,
-  ChevronDown,
-  Star,
   Flame
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const timeFilters = ["All Time", "This Month", "This Week", "Today"];
 
 const leaderboardData = [
   { rank: 1, name: "Alex Chen", username: "alexc", avatar: "AC", score: 52480, wins: 342, streak: 28, change: "up" },
@@ -56,33 +51,17 @@ const getRankStyles = (rank: number) => {
 };
 
 export default function Leaderboard() {
-  const [timeFilter, setTimeFilter] = useState("All Time");
-
   return (
     <DashboardLayout>
       <div className="space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Leaderboard
-            </h1>
-            <p className="text-muted-foreground">
-              See how you stack up against the best developers
-            </p>
-          </div>
-          <div className="relative">
-            <select
-              value={timeFilter}
-              onChange={(e) => setTimeFilter(e.target.value)}
-              className="h-10 pl-4 pr-10 rounded-lg border border-input bg-background text-sm appearance-none cursor-pointer"
-            >
-              {timeFilters.map((filter) => (
-                <option key={filter} value={filter}>{filter}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-          </div>
+        <div>
+          <h1 className="font-display text-3xl font-bold text-foreground mb-2">
+            All-Time Leaderboard
+          </h1>
+          <p className="text-muted-foreground">
+            See how you stack up against the best developers
+          </p>
         </div>
 
         {/* Top 3 Podium */}

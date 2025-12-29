@@ -1,105 +1,136 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { motion } from "framer-motion";
 import { 
   Search, 
-  Filter, 
   Clock, 
   Users, 
-  Star,
   ChevronDown,
-  Zap,
-  Trophy,
-  Code
+  CheckCircle2,
+  Circle,
+  Minus
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const difficulties = ["All", "Easy", "Medium", "Hard"];
-const categories = ["All", "Arrays", "Strings", "Dynamic Programming", "Graphs", "Trees", "Math"];
+const categories = ["All", "Arrays", "Strings", "Dynamic Programming", "Graphs", "Trees", "Math", "Two Pointers", "Binary Search"];
 
 const challenges = [
   {
     id: 1,
     title: "Two Sum",
-    description: "Given an array of integers, return indices of the two numbers that add up to a specific target.",
     difficulty: "Easy",
     category: "Arrays",
-    participants: 15420,
-    rating: 4.8,
-    timeLimit: "30 min",
-    points: 100,
-    isLive: true,
+    acceptance: 49.2,
+    status: "solved",
   },
   {
     id: 2,
-    title: "Longest Substring Without Repeating Characters",
-    description: "Find the length of the longest substring without repeating characters.",
+    title: "Add Two Numbers",
     difficulty: "Medium",
-    category: "Strings",
-    participants: 12350,
-    rating: 4.6,
-    timeLimit: "45 min",
-    points: 200,
-    isLive: false,
+    category: "Linked List",
+    acceptance: 40.1,
+    status: "attempted",
   },
   {
     id: 3,
-    title: "Binary Tree Maximum Path Sum",
-    description: "Find the maximum path sum in a binary tree where path can start and end at any node.",
-    difficulty: "Hard",
-    category: "Trees",
-    participants: 8920,
-    rating: 4.9,
-    timeLimit: "60 min",
-    points: 350,
-    isLive: true,
+    title: "Longest Substring Without Repeating Characters",
+    difficulty: "Medium",
+    category: "Strings",
+    acceptance: 33.8,
+    status: "none",
   },
   {
     id: 4,
-    title: "Valid Parentheses",
-    description: "Determine if the input string has valid bracket matching.",
-    difficulty: "Easy",
-    category: "Strings",
-    participants: 18750,
-    rating: 4.7,
-    timeLimit: "20 min",
-    points: 80,
-    isLive: false,
+    title: "Median of Two Sorted Arrays",
+    difficulty: "Hard",
+    category: "Binary Search",
+    acceptance: 36.2,
+    status: "none",
   },
   {
     id: 5,
-    title: "Coin Change",
-    description: "Find the minimum number of coins needed to make up a given amount.",
+    title: "Longest Palindromic Substring",
     difficulty: "Medium",
     category: "Dynamic Programming",
-    participants: 9840,
-    rating: 4.5,
-    timeLimit: "45 min",
-    points: 250,
-    isLive: false,
+    acceptance: 32.4,
+    status: "solved",
   },
   {
     id: 6,
-    title: "Word Ladder II",
-    description: "Find all shortest transformation sequences from beginWord to endWord.",
+    title: "Valid Parentheses",
+    difficulty: "Easy",
+    category: "Strings",
+    acceptance: 40.7,
+    status: "solved",
+  },
+  {
+    id: 7,
+    title: "Merge Two Sorted Lists",
+    difficulty: "Easy",
+    category: "Linked List",
+    acceptance: 62.5,
+    status: "none",
+  },
+  {
+    id: 8,
+    title: "Generate Parentheses",
+    difficulty: "Medium",
+    category: "Backtracking",
+    acceptance: 72.6,
+    status: "attempted",
+  },
+  {
+    id: 9,
+    title: "Merge k Sorted Lists",
     difficulty: "Hard",
-    category: "Graphs",
-    participants: 5620,
-    rating: 4.4,
-    timeLimit: "90 min",
-    points: 400,
-    isLive: true,
+    category: "Linked List",
+    acceptance: 50.3,
+    status: "none",
+  },
+  {
+    id: 10,
+    title: "Search in Rotated Sorted Array",
+    difficulty: "Medium",
+    category: "Binary Search",
+    acceptance: 39.0,
+    status: "none",
+  },
+  {
+    id: 11,
+    title: "Combination Sum",
+    difficulty: "Medium",
+    category: "Backtracking",
+    acceptance: 69.2,
+    status: "solved",
+  },
+  {
+    id: 12,
+    title: "Trapping Rain Water",
+    difficulty: "Hard",
+    category: "Two Pointers",
+    acceptance: 59.5,
+    status: "none",
   },
 ];
 
-const getDifficultyStyles = (difficulty: string) => {
+const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
-    case "Easy": return "bg-success/10 text-success border-success/20";
-    case "Medium": return "bg-warning/10 text-warning border-warning/20";
-    case "Hard": return "bg-destructive/10 text-destructive border-destructive/20";
-    default: return "bg-muted text-muted-foreground border-border";
+    case "Easy": return "text-success";
+    case "Medium": return "text-warning";
+    case "Hard": return "text-destructive";
+    default: return "text-muted-foreground";
+  }
+};
+
+const getStatusIcon = (status: string) => {
+  switch (status) {
+    case "solved": return <CheckCircle2 className="h-4 w-4 text-success" />;
+    case "attempted": return <Minus className="h-4 w-4 text-warning" />;
+    default: return <Circle className="h-4 w-4 text-muted-foreground/30" />;
   }
 };
 
@@ -115,17 +146,49 @@ export default function Challenges() {
     return matchesSearch && matchesDifficulty && matchesCategory;
   });
 
+  const stats = {
+    total: challenges.length,
+    solved: challenges.filter(c => c.status === "solved").length,
+    easy: challenges.filter(c => c.difficulty === "Easy").length,
+    medium: challenges.filter(c => c.difficulty === "Medium").length,
+    hard: challenges.filter(c => c.difficulty === "Hard").length,
+  };
+
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-6">
         {/* Header */}
         <div>
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-            Challenges
+            Problems
           </h1>
           <p className="text-muted-foreground">
-            Test your skills with over 500 coding challenges
+            Practice coding problems to improve your skills
           </p>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="bg-card border border-border rounded-lg p-4">
+            <p className="text-2xl font-bold text-foreground">{stats.solved}/{stats.total}</p>
+            <p className="text-sm text-muted-foreground">Solved</p>
+          </div>
+          <div className="bg-card border border-border rounded-lg p-4">
+            <p className="text-2xl font-bold text-success">{challenges.filter(c => c.difficulty === "Easy" && c.status === "solved").length}/{stats.easy}</p>
+            <p className="text-sm text-muted-foreground">Easy</p>
+          </div>
+          <div className="bg-card border border-border rounded-lg p-4">
+            <p className="text-2xl font-bold text-warning">{challenges.filter(c => c.difficulty === "Medium" && c.status === "solved").length}/{stats.medium}</p>
+            <p className="text-sm text-muted-foreground">Medium</p>
+          </div>
+          <div className="bg-card border border-border rounded-lg p-4">
+            <p className="text-2xl font-bold text-destructive">{challenges.filter(c => c.difficulty === "Hard" && c.status === "solved").length}/{stats.hard}</p>
+            <p className="text-sm text-muted-foreground">Hard</p>
+          </div>
+          <div className="bg-card border border-border rounded-lg p-4 col-span-2 md:col-span-1">
+            <p className="text-2xl font-bold text-primary">{Math.round((stats.solved / stats.total) * 100)}%</p>
+            <p className="text-sm text-muted-foreground">Progress</p>
+          </div>
         </div>
 
         {/* Filters */}
@@ -133,7 +196,7 @@ export default function Challenges() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search challenges..."
+              placeholder="Search problems..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -147,7 +210,7 @@ export default function Challenges() {
                 className="h-10 pl-4 pr-10 rounded-lg border border-input bg-background text-sm appearance-none cursor-pointer"
               >
                 {difficulties.map((diff) => (
-                  <option key={diff} value={diff}>{diff} Difficulty</option>
+                  <option key={diff} value={diff}>{diff === "All" ? "Difficulty" : diff}</option>
                 ))}
               </select>
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
@@ -159,7 +222,7 @@ export default function Challenges() {
                 className="h-10 pl-4 pr-10 rounded-lg border border-input bg-background text-sm appearance-none cursor-pointer"
               >
                 {categories.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
+                  <option key={cat} value={cat}>{cat === "All" ? "Category" : cat}</option>
                 ))}
               </select>
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
@@ -167,74 +230,63 @@ export default function Challenges() {
           </div>
         </div>
 
-        {/* Challenges Grid */}
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredChallenges.map((challenge, index) => (
-            <motion.div
-              key={challenge.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="group p-6 bg-card rounded-xl border border-border shadow-card hover:shadow-card-hover hover:border-primary/30 transition-all duration-300"
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className={getDifficultyStyles(challenge.difficulty)}>
-                    {challenge.difficulty}
-                  </Badge>
-                  {challenge.isLive && (
-                    <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 animate-pulse-soft">
-                      <Zap className="h-3 w-3 mr-1" />
-                      Live
-                    </Badge>
-                  )}
-                </div>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <Star className="h-4 w-4 fill-primary text-primary" />
-                  {challenge.rating}
-                </div>
-              </div>
-
-              {/* Content */}
-              <h3 className="font-display text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                {challenge.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                {challenge.description}
-              </p>
-
-              {/* Category */}
-              <div className="mb-4">
-                <Badge variant="secondary" className="text-xs">
-                  <Code className="h-3 w-3 mr-1" />
-                  {challenge.category}
-                </Badge>
-              </div>
-
-              {/* Stats */}
-              <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {challenge.timeLimit}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Users className="h-4 w-4" />
-                  {challenge.participants.toLocaleString()}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Trophy className="h-4 w-4 text-primary" />
-                  {challenge.points} pts
-                </div>
-              </div>
-
-              {/* CTA */}
-              <Button className="w-full" variant={challenge.isLive ? "default" : "outline"}>
-                {challenge.isLive ? "Join Battle" : "Start Challenge"}
-              </Button>
-            </motion.div>
-          ))}
-        </div>
+        {/* Problems Table */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="bg-card rounded-xl border border-border shadow-card overflow-hidden"
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4 w-12">Status</th>
+                  <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Title</th>
+                  <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Category</th>
+                  <th className="text-left text-sm font-medium text-muted-foreground px-6 py-4">Difficulty</th>
+                  <th className="text-right text-sm font-medium text-muted-foreground px-6 py-4">Acceptance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredChallenges.map((challenge, index) => (
+                  <motion.tr
+                    key={challenge.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.03 }}
+                    className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
+                  >
+                    <td className="px-6 py-4">
+                      {getStatusIcon(challenge.status)}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link 
+                        to={`/challenges/${challenge.id}`}
+                        className="font-medium text-foreground hover:text-primary transition-colors"
+                      >
+                        {challenge.id}. {challenge.title}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Badge variant="secondary" className="text-xs">
+                        {challenge.category}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={cn("font-medium text-sm", getDifficultyColor(challenge.difficulty))}>
+                        {challenge.difficulty}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right text-muted-foreground">
+                      {challenge.acceptance}%
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
 
         {/* Empty State */}
         {filteredChallenges.length === 0 && (
@@ -243,7 +295,7 @@ export default function Challenges() {
               <Search className="h-8 w-8 text-muted-foreground" />
             </div>
             <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-              No challenges found
+              No problems found
             </h3>
             <p className="text-muted-foreground">
               Try adjusting your filters or search query
