@@ -12,7 +12,11 @@ import {
   ChevronDown,
   Lightbulb,
   Trophy,
-  FileText
+  FileText,
+  Maximize2,
+  Minimize2,
+  Sun,
+  Moon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -89,6 +93,8 @@ export default function ChallengeSolve() {
   const [testResults, setTestResults] = useState(testCases);
   const [isRunning, setIsRunning] = useState(false);
   const [showHints, setShowHints] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [editorTheme, setEditorTheme] = useState<"vs-dark" | "light">("vs-dark");
 
   const handleLanguageChange = (langId: string) => {
     const lang = languages.find(l => l.id === langId);
@@ -274,9 +280,12 @@ export default function ChallengeSolve() {
         </div>
 
         {/* Right Panel - Code Editor */}
-        <div className="w-1/2 flex flex-col overflow-hidden">
-          {/* Language Selector */}
-          <div className="h-10 border-b border-border bg-card flex items-center px-4">
+        <div className={cn(
+          "flex flex-col overflow-hidden transition-all duration-300",
+          isFullscreen ? "fixed inset-0 z-50 w-full" : "w-1/2"
+        )}>
+          {/* Language Selector & Controls */}
+          <div className="h-10 border-b border-border bg-card flex items-center justify-between px-4">
             <div className="relative">
               <select
                 value={selectedLanguage.id}
@@ -289,6 +298,36 @@ export default function ChallengeSolve() {
               </select>
               <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             </div>
+            <div className="flex items-center gap-2">
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setEditorTheme(editorTheme === "vs-dark" ? "light" : "vs-dark")}
+                title={editorTheme === "vs-dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
+              >
+                {editorTheme === "vs-dark" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </Button>
+              {/* Fullscreen Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
 
           {/* Monaco Editor */}
@@ -298,7 +337,7 @@ export default function ChallengeSolve() {
               language={selectedLanguage.id === "cpp" ? "cpp" : selectedLanguage.id}
               value={code}
               onChange={(value) => setCode(value || "")}
-              theme="vs-dark"
+              theme={editorTheme}
               options={{
                 fontSize: 14,
                 fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
