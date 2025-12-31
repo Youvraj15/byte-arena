@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { Code2, Eye, EyeOff, ArrowLeft, Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -41,7 +41,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [acceptTerms, setAcceptTerms] = useState(false);
+  
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -59,14 +59,6 @@ export default function Register() {
       return;
     }
 
-    if (!acceptTerms) {
-      toast({
-        title: "Terms required",
-        description: "Please accept the terms and conditions.",
-        variant: "destructive",
-      });
-      return;
-    }
 
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -232,24 +224,6 @@ export default function Register() {
               )}
             </div>
 
-            <div className="flex items-start gap-2">
-              <Checkbox
-                id="terms"
-                checked={acceptTerms}
-                onCheckedChange={(checked) => setAcceptTerms(checked as boolean)}
-                className="mt-0.5"
-              />
-              <Label htmlFor="terms" className="text-sm font-normal cursor-pointer leading-relaxed">
-                I agree to the{" "}
-                <Link to="#" className="text-primary hover:underline">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link to="#" className="text-primary hover:underline">
-                  Privacy Policy
-                </Link>
-              </Label>
-            </div>
 
             <Button
               type="submit"

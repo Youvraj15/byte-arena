@@ -4,11 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Code2, Menu, X } from "lucide-react";
 import { useState } from "react";
 
-const navLinks = [
-  { name: "Challenges", href: "/challenges" },
-  { name: "Leaderboard", href: "/leaderboard" },
-  { name: "About", href: "#about" },
-];
+const navLinks: { name: string; href: string }[] = [];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
