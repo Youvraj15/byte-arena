@@ -14,27 +14,54 @@
 
 @layer base {
   :root {
-    /* Byte Arena Design System */
-    --background: 0 0% 93%;
-    --foreground: 210 18% 16%;
+    /* ========================================
+       BYTE ARENA BRAND COLORS
+       Change these to update colors site-wide
+       ======================================== */
+    
+    /* Primary brand color (teal) */
+    --brand-primary-h: 182;
+    --brand-primary-s: 30%;
+    --brand-primary-l: 57%;
+    
+    /* Dark charcoal (main dark color) */
+    --brand-dark-h: 210;
+    --brand-dark-s: 18%;
+    --brand-dark-l: 16%;
+    
+    /* Slate gray (secondary dark) */
+    --brand-slate-h: 216;
+    --brand-slate-s: 12%;
+    --brand-slate-l: 22%;
+    
+    /* Light background */
+    --brand-light-h: 0;
+    --brand-light-s: 0%;
+    --brand-light-l: 93%;
+
+    /* ========================================
+       SEMANTIC TOKENS (use brand colors above)
+       ======================================== */
+    --background: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
+    --foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
     --card: 0 0% 100%;
-    --card-foreground: 210 18% 16%;
+    --card-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 18% 16%;
+    --popover-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
-    --primary: 182 30% 57%;
-    --primary-foreground: 210 18% 16%;
+    --primary: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --primary-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
-    --secondary: 216 12% 22%;
-    --secondary-foreground: 0 0% 93%;
+    --secondary: var(--brand-slate-h) var(--brand-slate-s) var(--brand-slate-l);
+    --secondary-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
 
     --muted: 210 10% 85%;
-    --muted-foreground: 216 12% 40%;
+    --muted-foreground: var(--brand-slate-h) var(--brand-slate-s) 40%;
 
-    --accent: 182 30% 57%;
-    --accent-foreground: 210 18% 16%;
+    --accent: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --accent-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
@@ -43,73 +70,73 @@
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
-    --warning-foreground: 210 18% 16%;
+    --warning-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
     --border: 210 10% 80%;
     --input: 210 10% 80%;
-    --ring: 182 30% 57%;
+    --ring: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
 
     --radius: 0.75rem;
 
     /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(182 30% 57%) 0%, hsl(182 40% 45%) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(210 18% 16%) 0%, hsl(216 12% 22%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--brand-primary-h) 40% 45%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--secondary)) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 10% 98%) 100%);
 
     /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(210 18% 16% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(210 18% 16% / 0.1), 0 2px 4px -2px hsl(210 18% 16% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(210 18% 16% / 0.1), 0 4px 6px -4px hsl(210 18% 16% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(210 18% 16% / 0.1), 0 8px 10px -6px hsl(210 18% 16% / 0.1);
-    --shadow-glow: 0 0 20px hsl(182 30% 57% / 0.3);
+    --shadow-sm: 0 1px 2px 0 hsl(var(--foreground) / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -2px hsl(var(--foreground) / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -4px hsl(var(--foreground) / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 8px 10px -6px hsl(var(--foreground) / 0.1);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
 
-    --sidebar-background: 210 18% 16%;
-    --sidebar-foreground: 0 0% 93%;
-    --sidebar-primary: 182 30% 57%;
-    --sidebar-primary-foreground: 210 18% 16%;
-    --sidebar-accent: 216 12% 28%;
-    --sidebar-accent-foreground: 0 0% 93%;
-    --sidebar-border: 216 12% 28%;
-    --sidebar-ring: 182 30% 57%;
+    --sidebar-background: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
+    --sidebar-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
+    --sidebar-primary: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --sidebar-primary-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
+    --sidebar-accent: var(--brand-slate-h) var(--brand-slate-s) 28%;
+    --sidebar-accent-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
+    --sidebar-border: var(--brand-slate-h) var(--brand-slate-s) 28%;
+    --sidebar-ring: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
   }
 
   .dark {
-    --background: 210 18% 16%;
-    --foreground: 0 0% 93%;
+    --background: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
+    --foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
 
-    --card: 216 12% 22%;
-    --card-foreground: 0 0% 93%;
+    --card: var(--brand-slate-h) var(--brand-slate-s) var(--brand-slate-l);
+    --card-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
 
-    --popover: 216 12% 22%;
-    --popover-foreground: 0 0% 93%;
+    --popover: var(--brand-slate-h) var(--brand-slate-s) var(--brand-slate-l);
+    --popover-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
 
-    --primary: 182 30% 57%;
-    --primary-foreground: 210 18% 16%;
+    --primary: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --primary-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
-    --secondary: 216 12% 28%;
-    --secondary-foreground: 0 0% 93%;
+    --secondary: var(--brand-slate-h) var(--brand-slate-s) 28%;
+    --secondary-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
 
-    --muted: 216 12% 28%;
+    --muted: var(--brand-slate-h) var(--brand-slate-s) 28%;
     --muted-foreground: 210 10% 60%;
 
-    --accent: 182 30% 57%;
-    --accent-foreground: 210 18% 16%;
+    --accent: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --accent-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 216 12% 28%;
-    --input: 216 12% 28%;
-    --ring: 182 30% 57%;
+    --border: var(--brand-slate-h) var(--brand-slate-s) 28%;
+    --input: var(--brand-slate-h) var(--brand-slate-s) 28%;
+    --ring: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
 
-    --sidebar-background: 216 12% 18%;
-    --sidebar-foreground: 0 0% 93%;
-    --sidebar-primary: 182 30% 57%;
-    --sidebar-primary-foreground: 210 18% 16%;
-    --sidebar-accent: 216 12% 24%;
-    --sidebar-accent-foreground: 0 0% 93%;
-    --sidebar-border: 216 12% 24%;
-    --sidebar-ring: 182 30% 57%;
+    --sidebar-background: var(--brand-slate-h) var(--brand-slate-s) 18%;
+    --sidebar-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
+    --sidebar-primary: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
+    --sidebar-primary-foreground: var(--brand-dark-h) var(--brand-dark-s) var(--brand-dark-l);
+    --sidebar-accent: var(--brand-slate-h) var(--brand-slate-s) 24%;
+    --sidebar-accent-foreground: var(--brand-light-h) var(--brand-light-s) var(--brand-light-l);
+    --sidebar-border: var(--brand-slate-h) var(--brand-slate-s) 24%;
+    --sidebar-ring: var(--brand-primary-h) var(--brand-primary-s) var(--brand-primary-l);
   }
 }
 
@@ -157,7 +184,7 @@
   .btn-primary-glow::before {
     content: '';
     @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: linear-gradient(135deg, hsl(182 40% 65%) 0%, hsl(182 30% 50%) 100%);
+    background: linear-gradient(135deg, hsl(var(--brand-primary-h) 40% 65%) 0%, hsl(var(--brand-primary-h) var(--brand-primary-s) 50%) 100%);
   }
 
   .btn-primary-glow:hover::before {
@@ -166,11 +193,11 @@
 
   .glass-effect {
     @apply backdrop-blur-md;
-    background: hsl(0 0% 100% / 0.8);
+    background: hsl(var(--card) / 0.8);
   }
 
   .dark .glass-effect {
-    background: hsl(216 12% 22% / 0.8);
+    background: hsl(var(--card) / 0.8);
   }
 }
 
@@ -189,8 +216,8 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px hsl(182 30% 57% / 0.3); }
-    50% { box-shadow: 0 0 40px hsl(182 30% 57% / 0.5); }
+    0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.5); }
   }
 
   .animate-count {

@@ -76,11 +76,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px hsl(210 18% 16% / 0.07), 0 10px 20px -2px hsl(210 18% 16% / 0.04)',
-        'card': '0 0 0 1px hsl(210 10% 80% / 0.5), 0 2px 4px hsl(210 18% 16% / 0.05)',
-        'card-hover': '0 0 0 1px hsl(182 30% 57% / 0.3), 0 10px 40px hsl(210 18% 16% / 0.12)',
-        'glow': '0 0 20px hsl(182 30% 57% / 0.3)',
-        'glow-lg': '0 0 40px hsl(182 30% 57% / 0.4)',
+        'soft': '0 2px 15px -3px hsl(var(--foreground) / 0.07), 0 10px 20px -2px hsl(var(--foreground) / 0.04)',
+        'card': '0 0 0 1px hsl(var(--border) / 0.5), 0 2px 4px hsl(var(--foreground) / 0.05)',
+        'card-hover': '0 0 0 1px hsl(var(--primary) / 0.3), 0 10px 40px hsl(var(--foreground) / 0.12)',
+        'glow': '0 0 20px hsl(var(--primary) / 0.3)',
+        'glow-lg': '0 0 40px hsl(var(--primary) / 0.4)',
       },
       keyframes: {
         "accordion-down": {
