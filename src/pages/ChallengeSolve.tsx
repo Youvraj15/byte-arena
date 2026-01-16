@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { motion } from "framer-motion";
 import { 
@@ -16,12 +16,14 @@ import {
   Maximize2,
   Minimize2,
   Sun,
-  Moon
+  Moon,
+  LogIn
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const languages = [
   { id: "c", name: "C", template: '#include <stdio.h>\n\nint main() {\n    // Your code here\n    return 0;\n}' },
@@ -87,6 +89,8 @@ const getDifficultyStyles = (difficulty: string) => {
 
 export default function ChallengeSolve() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedLanguage, setSelectedLanguage] = useState(languages[3]); // Python default
   const [code, setCode] = useState(selectedLanguage.template);
   const [activeTab, setActiveTab] = useState("description");
@@ -96,6 +100,8 @@ export default function ChallengeSolve() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [editorTheme, setEditorTheme] = useState<"vs-dark" | "light">("vs-dark");
 
+  const isAuthenticated = localStorage.getItem("userAuth") === "true";
+
   const handleLanguageChange = (langId: string) => {
     const lang = languages.find(l => l.id === langId);
     if (lang) {
@@ -104,24 +110,40 @@ export default function ChallengeSolve() {
     }
   };
 
+  const checkAuthAndProceed = (action: () => void) => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please login to run or submit your code.",
+        variant: "destructive",
+      });
+      return;
+    }
+    action();
+  };
+
   const handleRun = () => {
-    setIsRunning(true);
-    // Simulate running code
-    setTimeout(() => {
-      setTestResults(testCases.map((tc, i) => ({
-        ...tc,
-        status: i === 0 ? "passed" : i === 1 ? "passed" : "failed"
-      })));
-      setIsRunning(false);
-    }, 1500);
+    checkAuthAndProceed(() => {
+      setIsRunning(true);
+      // Simulate running code
+      setTimeout(() => {
+        setTestResults(testCases.map((tc, i) => ({
+          ...tc,
+          status: i === 0 ? "passed" : i === 1 ? "passed" : "failed"
+        })));
+        setIsRunning(false);
+      }, 1500);
+    });
   };
 
   const handleSubmit = () => {
-    setIsRunning(true);
-    setTimeout(() => {
-      setTestResults(testCases.map(tc => ({ ...tc, status: "passed" })));
-      setIsRunning(false);
-    }, 2000);
+    checkAuthAndProceed(() => {
+      setIsRunning(true);
+      setTimeout(() => {
+        setTestResults(testCases.map(tc => ({ ...tc, status: "passed" })));
+        setIsRunning(false);
+      }, 2000);
+    });
   };
 
   return (
@@ -394,6 +416,14 @@ export default function ChallengeSolve() {
               Acceptance: <span className="text-foreground font-medium">{challengeData.acceptanceRate}%</span>
             </div>
             <div className="flex items-center gap-2">
+              {!isAuthenticated && (
+                <Button variant="ghost" size="sm" asChild className="text-primary">
+                  <Link to="/login">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Login to Run
+                  </Link>
+                </Button>
+              )}
               <Button variant="outline" onClick={handleRun} disabled={isRunning}>
                 <Play className="h-4 w-4 mr-2" />
                 Run
