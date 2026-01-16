@@ -35,12 +35,12 @@ const achievements = [
   { name: "Legend", description: "Reach top 100 global ranking", icon: Award, earned: false, date: null },
 ];
 
-const matchHistory = [
-  { id: 1, opponent: "Alex Chen", challenge: "Binary Search", result: "Win", score: "+25", date: "2 hours ago" },
-  { id: 2, opponent: "Sarah Kim", challenge: "Two Sum", result: "Win", score: "+20", date: "5 hours ago" },
-  { id: 3, opponent: "Marcus Johnson", challenge: "Merge Sort", result: "Loss", score: "-15", date: "1 day ago" },
-  { id: 4, opponent: "Elena Rodriguez", challenge: "Valid Parentheses", result: "Win", score: "+30", date: "2 days ago" },
-  { id: 5, opponent: "David Park", challenge: "Coin Change", result: "Win", score: "+35", date: "3 days ago" },
+const solvedProblems = [
+  { id: 1, title: "Two Sum", difficulty: "Easy", category: "Arrays", solvedAt: "2 hours ago", attempts: 1 },
+  { id: 2, title: "Binary Search", difficulty: "Easy", category: "Searching", solvedAt: "5 hours ago", attempts: 2 },
+  { id: 3, title: "Valid Parentheses", difficulty: "Easy", category: "Strings", solvedAt: "1 day ago", attempts: 1 },
+  { id: 4, title: "Merge Sort", difficulty: "Medium", category: "Sorting", solvedAt: "2 days ago", attempts: 3 },
+  { id: 5, title: "Longest Substring", difficulty: "Medium", category: "Strings", solvedAt: "3 days ago", attempts: 2 },
 ];
 
 export default function Profile() {
@@ -168,7 +168,13 @@ export default function Profile() {
           transition={{ duration: 0.3, delay: 0.1 }}
           className="p-6 bg-card rounded-xl border border-border shadow-card"
         >
-          <h2 className="font-display text-xl font-semibold text-foreground mb-4">Skills</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-xl font-semibold text-foreground">Skills</h2>
+            <Button variant="outline" size="sm">
+              <Edit2 className="h-4 w-4 mr-2" />
+              Edit Skills
+            </Button>
+          </div>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
               <Badge key={skill} variant="secondary" className="px-3 py-1">
@@ -211,46 +217,46 @@ export default function Profile() {
           </div>
         </motion.div>
 
-        {/* Match History */}
+        {/* Solved Problems History */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
           className="p-6 bg-card rounded-xl border border-border shadow-card"
         >
-          <h2 className="font-display text-xl font-semibold text-foreground mb-4">Match History</h2>
+          <h2 className="font-display text-xl font-semibold text-foreground mb-4">Solved Problems</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left text-sm font-medium text-muted-foreground px-4 py-3">Challenge</th>
-                  <th className="text-left text-sm font-medium text-muted-foreground px-4 py-3">Opponent</th>
-                  <th className="text-center text-sm font-medium text-muted-foreground px-4 py-3">Result</th>
-                  <th className="text-right text-sm font-medium text-muted-foreground px-4 py-3">Score</th>
-                  <th className="text-right text-sm font-medium text-muted-foreground px-4 py-3">Date</th>
+                  <th className="text-left text-sm font-medium text-muted-foreground px-4 py-3">Problem</th>
+                  <th className="text-left text-sm font-medium text-muted-foreground px-4 py-3">Category</th>
+                  <th className="text-center text-sm font-medium text-muted-foreground px-4 py-3">Difficulty</th>
+                  <th className="text-center text-sm font-medium text-muted-foreground px-4 py-3">Attempts</th>
+                  <th className="text-right text-sm font-medium text-muted-foreground px-4 py-3">Solved</th>
                 </tr>
               </thead>
               <tbody>
-                {matchHistory.map((match) => (
-                  <tr key={match.id} className="border-b border-border last:border-0">
-                    <td className="px-4 py-3 font-medium text-foreground">{match.challenge}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{match.opponent}</td>
+                {solvedProblems.map((problem) => (
+                  <tr key={problem.id} className="border-b border-border last:border-0">
+                    <td className="px-4 py-3 font-medium text-foreground">{problem.title}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{problem.category}</td>
                     <td className="px-4 py-3">
                       <div className="flex justify-center">
                         <Badge
                           variant="secondary"
-                          className={match.result === "Win" ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}
+                          className={
+                            problem.difficulty === "Easy" ? "bg-success/10 text-success" :
+                            problem.difficulty === "Medium" ? "bg-warning/10 text-warning" :
+                            "bg-destructive/10 text-destructive"
+                          }
                         >
-                          {match.result}
+                          {problem.difficulty}
                         </Badge>
                       </div>
                     </td>
-                    <td className={`px-4 py-3 text-right font-semibold ${
-                      match.score.startsWith("+") ? "text-success" : "text-destructive"
-                    }`}>
-                      {match.score}
-                    </td>
-                    <td className="px-4 py-3 text-right text-muted-foreground text-sm">{match.date}</td>
+                    <td className="px-4 py-3 text-center text-muted-foreground">{problem.attempts}</td>
+                    <td className="px-4 py-3 text-right text-muted-foreground text-sm">{problem.solvedAt}</td>
                   </tr>
                 ))}
               </tbody>
