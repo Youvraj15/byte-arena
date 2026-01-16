@@ -55,7 +55,15 @@ export default function Challenges() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const filteredChallenges = challenges.filter((challenge) => {
+  const isAuthenticated = localStorage.getItem("userAuth") === "true";
+
+  // For non-authenticated users, don't show solved status
+  const displayChallenges = challenges.map(c => ({
+    ...c,
+    status: isAuthenticated ? c.status : "none"
+  }));
+
+  const filteredChallenges = displayChallenges.filter((challenge) => {
     const matchesSearch = challenge.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDifficulty = selectedDifficulty === "All" || challenge.difficulty === selectedDifficulty;
     const matchesCategory = selectedCategory === "All" || challenge.category === selectedCategory;
@@ -69,10 +77,19 @@ export default function Challenges() {
 
   const stats = {
     total: challenges.length,
-    solved: challenges.filter(c => c.status === "solved").length,
-    easy: { total: challenges.filter(c => c.difficulty === "Easy").length, solved: challenges.filter(c => c.difficulty === "Easy" && c.status === "solved").length },
-    medium: { total: challenges.filter(c => c.difficulty === "Medium").length, solved: challenges.filter(c => c.difficulty === "Medium" && c.status === "solved").length },
-    hard: { total: challenges.filter(c => c.difficulty === "Hard").length, solved: challenges.filter(c => c.difficulty === "Hard" && c.status === "solved").length },
+    solved: isAuthenticated ? challenges.filter(c => c.status === "solved").length : 0,
+    easy: { 
+      total: challenges.filter(c => c.difficulty === "Easy").length, 
+      solved: isAuthenticated ? challenges.filter(c => c.difficulty === "Easy" && c.status === "solved").length : 0 
+    },
+    medium: { 
+      total: challenges.filter(c => c.difficulty === "Medium").length, 
+      solved: isAuthenticated ? challenges.filter(c => c.difficulty === "Medium" && c.status === "solved").length : 0 
+    },
+    hard: { 
+      total: challenges.filter(c => c.difficulty === "Hard").length, 
+      solved: isAuthenticated ? challenges.filter(c => c.difficulty === "Hard" && c.status === "solved").length : 0 
+    },
   };
 
   const clearFilters = () => {
@@ -100,14 +117,30 @@ export default function Challenges() {
           </div>
         </div>
 
-        {/* Problem Stats */}
-        <ProblemStats
-          total={stats.total}
-          solved={stats.solved}
-          easy={stats.easy}
-          medium={stats.medium}
-          hard={stats.hard}
-        />
+        {/* Problem Stats - Only show progress if authenticated */}
+        {isAuthenticated ? (
+          <ProblemStats
+            total={stats.total}
+            solved={stats.solved}
+            easy={stats.easy}
+            medium={stats.medium}
+            hard={stats.hard}
+          />
+        ) : (
+          <div className="p-6 rounded-2xl border border-border bg-card" style={{ boxShadow: "var(--shadow-card)" }}>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-lg font-semibold text-foreground">{stats.total} Problems Available</p>
+                <p className="text-sm text-muted-foreground">
+                  {stats.easy.total} Easy • {stats.medium.total} Medium • {stats.hard.total} Hard
+                </p>
+              </div>
+              <Link to="/login" className="text-primary hover:underline text-sm font-medium">
+                Sign in to track progress →
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Search and Filters */}
         <div className="space-y-4">
