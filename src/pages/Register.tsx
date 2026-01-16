@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,6 +44,7 @@ export default function Register() {
   
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const passwordStrength = passwordRequirements.filter((req) => req.test(password)).length;
 
@@ -59,9 +60,13 @@ export default function Register() {
       return;
     }
 
-
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Set auth state
+    localStorage.setItem("userAuth", "true");
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userName", name);
     
     toast({
       title: "Account created!",
@@ -69,6 +74,7 @@ export default function Register() {
     });
     
     setIsLoading(false);
+    navigate("/dashboard");
   };
 
   const getStrengthColor = () => {

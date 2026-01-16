@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,6 +36,7 @@ export default function Login() {
   
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +45,17 @@ export default function Login() {
     // Simulate login
     await new Promise(resolve => setTimeout(resolve, 1000));
     
+    // Set auth state
+    localStorage.setItem("userAuth", "true");
+    localStorage.setItem("userEmail", email);
+    
     toast({
       title: "Welcome back!",
       description: "You have successfully logged in.",
     });
     
     setIsLoading(false);
+    navigate("/dashboard");
   };
 
   return (
