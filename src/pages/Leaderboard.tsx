@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import { motion } from "framer-motion";
 import { 
   Trophy, 
@@ -51,8 +51,10 @@ const getRankStyles = (rank: number) => {
 };
 
 export default function Leaderboard() {
+  const isAuthenticated = localStorage.getItem("userAuth") === "true";
+
   return (
-    <DashboardLayout>
+    <PublicLayout>
       <div className="space-y-8">
         {/* Header */}
         <div>
@@ -194,43 +196,45 @@ export default function Leaderboard() {
           </div>
         </motion.div>
 
-        {/* Your Rank */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="p-6 bg-primary/5 rounded-xl border border-primary/20"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
-                JD
-              </div>
-              <div>
-                <p className="font-semibold text-foreground">Your Ranking</p>
-                <p className="text-sm text-muted-foreground">Keep pushing to climb higher!</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-8">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-primary">#1,247</p>
-                <p className="text-xs text-muted-foreground">Global Rank</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-foreground">15,420</p>
-                <p className="text-xs text-muted-foreground">Points</p>
-              </div>
-              <div className="text-center flex items-center gap-2">
-                <TrendingUp className="h-6 w-6 text-success" />
+        {/* Your Rank - Only show if authenticated */}
+        {isAuthenticated && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="p-6 bg-primary/5 rounded-xl border border-primary/20"
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
+                  JD
+                </div>
                 <div>
-                  <p className="text-lg font-bold text-success">+52</p>
-                  <p className="text-xs text-muted-foreground">This week</p>
+                  <p className="font-semibold text-foreground">Your Ranking</p>
+                  <p className="text-sm text-muted-foreground">Keep pushing to climb higher!</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-8">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">#1,247</p>
+                  <p className="text-xs text-muted-foreground">Global Rank</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-foreground">15,420</p>
+                  <p className="text-xs text-muted-foreground">Points</p>
+                </div>
+                <div className="text-center flex items-center gap-2">
+                  <TrendingUp className="h-6 w-6 text-success" />
+                  <div>
+                    <p className="text-lg font-bold text-success">+52</p>
+                    <p className="text-xs text-muted-foreground">This week</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
       </div>
-    </DashboardLayout>
+    </PublicLayout>
   );
 }
