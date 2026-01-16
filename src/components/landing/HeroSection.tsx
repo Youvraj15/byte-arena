@@ -129,31 +129,6 @@ export function HeroSection() {
             ))}
           </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-12 mt-20 pt-12 border-t border-border"
-          >
-            {[
-              { value: "500+", label: "Students" },
-              { value: "150+", label: "Problems" },
-              { value: "5,000+", label: "Submissions" },
-              { value: "10+", label: "Colleges" },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                className="text-center"
-              >
-                <p className="text-3xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
 

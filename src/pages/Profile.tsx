@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import { motion } from "framer-motion";
 import { 
   Camera, 
@@ -59,7 +59,7 @@ export default function Profile() {
   };
 
   return (
-    <DashboardLayout>
+    <PublicLayout>
       <div className="space-y-8">
         {/* Profile Header */}
         <motion.div
@@ -258,6 +258,6 @@ export default function Profile() {
           </div>
         </motion.div>
       </div>
-    </DashboardLayout>
+    </PublicLayout>
   );
 }

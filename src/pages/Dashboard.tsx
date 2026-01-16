@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import { motion } from "framer-motion";
 import { 
   Trophy, 
@@ -42,7 +42,7 @@ const getDifficultyColor = (difficulty: string) => {
 
 export default function Dashboard() {
   return (
-    <DashboardLayout>
+    <PublicLayout>
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -191,6 +191,6 @@ export default function Dashboard() {
           </div>
         </motion.div>
       </div>
-    </DashboardLayout>
+    </PublicLayout>
   );
 }
