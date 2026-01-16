@@ -19,16 +19,16 @@ import { RecentSubmissions } from "@/components/dashboard/RecentSubmissions";
 import { ProgressRing } from "@/components/ui/progress-ring";
 
 const statsCards = [
-  { label: "Global Rank", value: "#1,247", icon: Trophy, trend: "+52", trendUp: true },
-  { label: "Problems Solved", value: "86", icon: Target, trend: "+12", trendUp: true },
-  { label: "Acceptance Rate", value: "73%", icon: TrendingUp, trend: "+5%", trendUp: true },
-  { label: "Total Time", value: "142h", icon: Clock },
+  { label: "Class Rank", value: "#12", icon: Trophy, trend: "+3", trendUp: true },
+  { label: "Problems Solved", value: "24", icon: Target, trend: "+5", trendUp: true },
+  { label: "Accuracy", value: "68%", icon: TrendingUp, trend: "+8%", trendUp: true },
+  { label: "Practice Time", value: "18h", icon: Clock },
 ];
 
 const suggestedProblems = [
-  { id: 1, title: "Longest Common Subsequence", difficulty: "Medium", category: "Dynamic Programming" },
-  { id: 2, title: "Binary Tree Level Order Traversal", difficulty: "Medium", category: "Trees" },
-  { id: 3, title: "Course Schedule", difficulty: "Medium", category: "Graphs" },
+  { id: 1, title: "Reverse a Linked List", difficulty: "Easy", category: "Linked List" },
+  { id: 2, title: "Binary Search Implementation", difficulty: "Easy", category: "Searching" },
+  { id: 3, title: "Merge Sort Algorithm", difficulty: "Medium", category: "Sorting" },
 ];
 
 const getDifficultyColor = (difficulty: string) => {
@@ -48,10 +48,10 @@ export default function Dashboard() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="font-display text-3xl font-bold text-foreground mb-1">
-              Welcome back, John! 👋
+              Welcome back, Student! 👋
             </h1>
             <p className="text-muted-foreground">
-              Continue your practice and keep the streak going!
+              Keep practicing to improve your DSA skills!
             </p>
           </div>
           <Button asChild>
@@ -86,9 +86,9 @@ export default function Dashboard() {
 
           {/* Streak Card */}
           <StreakCard
-            currentStreak={7}
-            longestStreak={28}
-            totalActiveDays={156}
+            currentStreak={3}
+            longestStreak={7}
+            totalActiveDays={15}
           />
         </div>
 

@@ -137,10 +137,10 @@ export function HeroSection() {
             className="flex flex-wrap justify-center gap-12 mt-20 pt-12 border-t border-border"
           >
             {[
-              { value: "100K+", label: "Active Users" },
-              { value: "1,000+", label: "Problems" },
-              { value: "50M+", label: "Submissions" },
-              { value: "150+", label: "Countries" },
+              { value: "500+", label: "Students" },
+              { value: "150+", label: "Problems" },
+              { value: "5,000+", label: "Submissions" },
+              { value: "10+", label: "Colleges" },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}

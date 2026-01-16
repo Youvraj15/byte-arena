@@ -12,16 +12,16 @@ import {
 import { cn } from "@/lib/utils";
 
 const leaderboardData = [
-  { rank: 1, name: "Alex Chen", username: "alexc", avatar: "AC", score: 52480, wins: 342, streak: 28, change: "up" },
-  { rank: 2, name: "Sarah Kim", username: "sarahk", avatar: "SK", score: 48920, wins: 318, streak: 21, change: "up" },
-  { rank: 3, name: "Marcus Johnson", username: "marcusj", avatar: "MJ", score: 47350, wins: 305, streak: 15, change: "down" },
-  { rank: 4, name: "Elena Rodriguez", username: "elenar", avatar: "ER", score: 45200, wins: 289, streak: 12, change: "same" },
-  { rank: 5, name: "David Park", username: "davidp", avatar: "DP", score: 43890, wins: 275, streak: 8, change: "up" },
-  { rank: 6, name: "Emma Wilson", username: "emmaw", avatar: "EW", score: 42100, wins: 268, streak: 6, change: "down" },
-  { rank: 7, name: "James Lee", username: "jamesl", avatar: "JL", score: 40750, wins: 255, streak: 14, change: "up" },
-  { rank: 8, name: "Olivia Brown", username: "oliviab", avatar: "OB", score: 39200, wins: 242, streak: 3, change: "same" },
-  { rank: 9, name: "Ryan Martinez", username: "ryanm", avatar: "RM", score: 38450, wins: 231, streak: 9, change: "up" },
-  { rank: 10, name: "Sophie Taylor", username: "sophiet", avatar: "ST", score: 37100, wins: 220, streak: 5, change: "down" },
+  { rank: 1, name: "Arjun Sharma", username: "arjun_cs", avatar: "AS", score: 2480, wins: 42, streak: 12, change: "up" },
+  { rank: 2, name: "Priya Patel", username: "priya.p", avatar: "PP", score: 2320, wins: 38, streak: 8, change: "up" },
+  { rank: 3, name: "Rahul Kumar", username: "rahul_k", avatar: "RK", score: 2150, wins: 35, streak: 6, change: "down" },
+  { rank: 4, name: "Sneha Gupta", username: "sneha_g", avatar: "SG", score: 1980, wins: 31, streak: 5, change: "same" },
+  { rank: 5, name: "Vikram Singh", username: "vikram_s", avatar: "VS", score: 1850, wins: 28, streak: 4, change: "up" },
+  { rank: 6, name: "Ananya Reddy", username: "ananya_r", avatar: "AR", score: 1720, wins: 25, streak: 3, change: "down" },
+  { rank: 7, name: "Karthik Nair", username: "karthik_n", avatar: "KN", score: 1650, wins: 23, streak: 7, change: "up" },
+  { rank: 8, name: "Meera Iyer", username: "meera_i", avatar: "MI", score: 1580, wins: 21, streak: 2, change: "same" },
+  { rank: 9, name: "Aditya Joshi", username: "aditya_j", avatar: "AJ", score: 1490, wins: 19, streak: 4, change: "up" },
+  { rank: 10, name: "Divya Menon", username: "divya_m", avatar: "DM", score: 1420, wins: 17, streak: 3, change: "down" },
 ];
 
 const getRankIcon = (rank: number) => {
@@ -207,26 +207,26 @@ export default function Leaderboard() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
-                  JD
+                  ST
                 </div>
                 <div>
                   <p className="font-semibold text-foreground">Your Ranking</p>
-                  <p className="text-sm text-muted-foreground">Keep pushing to climb higher!</p>
+                  <p className="text-sm text-muted-foreground">Keep practicing to climb higher!</p>
                 </div>
               </div>
               <div className="flex items-center gap-8">
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">#1,247</p>
-                  <p className="text-xs text-muted-foreground">Global Rank</p>
+                  <p className="text-3xl font-bold text-primary">#15</p>
+                  <p className="text-xs text-muted-foreground">Class Rank</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-foreground">15,420</p>
+                  <p className="text-3xl font-bold text-foreground">420</p>
                   <p className="text-xs text-muted-foreground">Points</p>
                 </div>
                 <div className="text-center flex items-center gap-2">
                   <TrendingUp className="h-6 w-6 text-success" />
                   <div>
-                    <p className="text-lg font-bold text-success">+52</p>
+                    <p className="text-lg font-bold text-success">+5</p>
                     <p className="text-xs text-muted-foreground">This week</p>
                   </div>
                 </div>
