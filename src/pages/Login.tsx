@@ -91,9 +91,18 @@ export default function Login() {
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">
             Welcome back
           </h1>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-muted-foreground mb-4">
             Sign in to continue your coding journey
           </p>
+
+          {/* Demo Credentials */}
+          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20 mb-6">
+            <p className="text-sm font-medium text-primary mb-2">Demo Credentials</p>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p><span className="text-foreground font-mono">Email:</span> student@college.edu</p>
+              <p><span className="text-foreground font-mono">Password:</span> demo123</p>
+            </div>
+          </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">

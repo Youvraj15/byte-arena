@@ -94,26 +94,29 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="p-4 border-t border-sidebar-border">
             <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-sidebar-accent">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sidebar-primary text-sidebar-primary-foreground font-semibold">
-                JD
+                ST
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  John Doe
+                  Demo Student
                 </p>
                 <p className="text-xs text-sidebar-foreground/60 truncate">
-                  john@example.com
+                  student@college.edu
                 </p>
               </div>
             </div>
             <Button
               variant="ghost"
               className="w-full mt-2 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
-              asChild
+              onClick={() => {
+                localStorage.removeItem("userAuth");
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("userName");
+                window.location.href = "/";
+              }}
             >
-              <Link to="/">
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign out
-              </Link>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign out
             </Button>
           </div>
         </div>
