@@ -3,9 +3,9 @@ import { HeroSection } from "@/components/landing/HeroSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen overflow-hidden bg-background">
       <Navbar />
-      <main className="pt-16">
+      <main className="h-full pt-16">
         <HeroSection />
       </main>
     </div>

@@ -34,6 +34,12 @@ interface TestCase {
   expectedOutput: string;
 }
 
+interface ChallengeSolver {
+  id: number;
+  name: string;
+  solvedAt: string;
+}
+
 interface Challenge {
   id: number;
   title: string;
@@ -41,6 +47,7 @@ interface Challenge {
   category: string;
   description: string;
   testCases: TestCase[];
+  solvers: ChallengeSolver[];
 }
 
 interface Student {
@@ -66,6 +73,39 @@ const initialChallenges: Challenge[] = [
     testCases: [
       { id: 1, input: "[2,7,11,15], 9", expectedOutput: "[0,1]" },
       { id: 2, input: "[3,2,4], 6", expectedOutput: "[1,2]" },
+    ],
+    solvers: [
+      { id: 1, name: "Arjun Sharma", solvedAt: "2 hours ago" },
+      { id: 2, name: "Priya Patel", solvedAt: "1 day ago" },
+      { id: 3, name: "Vikram Singh", solvedAt: "2 days ago" },
+    ],
+  },
+  {
+    id: 2,
+    title: "Valid Parentheses",
+    difficulty: "Easy",
+    category: "Strings",
+    description: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
+    testCases: [
+      { id: 1, input: "()", expectedOutput: "true" },
+      { id: 2, input: "()[]{}", expectedOutput: "true" },
+    ],
+    solvers: [
+      { id: 1, name: "Arjun Sharma", solvedAt: "5 hours ago" },
+      { id: 2, name: "Neha Gupta", solvedAt: "3 days ago" },
+    ],
+  },
+  {
+    id: 3,
+    title: "Merge Sort",
+    difficulty: "Medium",
+    category: "Sorting",
+    description: "Implement the merge sort algorithm to sort an array of integers.",
+    testCases: [
+      { id: 1, input: "[5,2,8,1,9]", expectedOutput: "[1,2,5,8,9]" },
+    ],
+    solvers: [
+      { id: 1, name: "Rahul Kumar", solvedAt: "1 day ago" },
     ],
   },
 ];
@@ -111,6 +151,7 @@ export default function Admin() {
     category: "Arrays",
     description: "",
     testCases: [],
+    solvers: [],
   });
 
   const handleCreateChallenge = () => {
@@ -126,6 +167,7 @@ export default function Admin() {
       category: "Arrays",
       description: "",
       testCases: [],
+      solvers: [],
     });
   };
 
@@ -394,7 +436,7 @@ export default function Admin() {
                   className="bg-card border border-border rounded-lg p-4"
                 >
                   <div className="flex items-start justify-between">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="font-semibold text-foreground">{challenge.title}</h3>
                       <div className="flex items-center gap-2 mt-2">
                         <Badge variant="outline" className={cn(
@@ -409,8 +451,36 @@ export default function Admin() {
                           {challenge.testCases.length} test cases
                         </span>
                       </div>
+                      
+                      {/* Solvers Info */}
+                      <div className="mt-3 pt-3 border-t border-border">
+                        <div className="flex items-center gap-2 mb-2">
+                          <CheckCircle2 className="h-4 w-4 text-success" />
+                          <span className="text-sm font-medium text-foreground">
+                            {challenge.solvers.length} student{challenge.solvers.length !== 1 ? 's' : ''} solved
+                          </span>
+                        </div>
+                        {challenge.solvers.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {challenge.solvers.slice(0, 5).map((solver) => (
+                              <div key={solver.id} className="flex items-center gap-1.5 px-2 py-1 bg-muted/50 rounded text-xs">
+                                <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-[10px]">
+                                  {solver.name.split(' ').map(n => n[0]).join('')}
+                                </div>
+                                <span className="text-foreground">{solver.name}</span>
+                                <span className="text-muted-foreground">• {solver.solvedAt}</span>
+                              </div>
+                            ))}
+                            {challenge.solvers.length > 5 && (
+                              <span className="text-xs text-muted-foreground px-2 py-1">
+                                +{challenge.solvers.length - 5} more
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ml-4">
                       <Button 
                         variant="ghost" 
                         size="icon"

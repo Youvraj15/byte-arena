@@ -98,7 +98,7 @@ export default function ChallengeSolve() {
   const [isRunning, setIsRunning] = useState(false);
   const [showHints, setShowHints] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [editorTheme, setEditorTheme] = useState<"vs-dark" | "light">("vs-dark");
+  const [editorTheme, setEditorTheme] = useState<"vs-dark" | "light">("light");
 
   const isAuthenticated = localStorage.getItem("userAuth") === "true";
 
@@ -189,7 +189,7 @@ export default function ChallengeSolve() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="description" className="flex-1 overflow-auto p-6 mt-0">
+            <TabsContent value="description" className="flex-1 overflow-y-auto p-6 mt-0" style={{ maxHeight: "calc(100vh - 14rem)" }}>
               <div className="prose prose-invert max-w-none">
                 {/* Problem Statement */}
                 <div className="mb-6">
