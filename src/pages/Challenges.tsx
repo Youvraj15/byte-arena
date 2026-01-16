@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import { motion } from "framer-motion";
 import { 
   Search, 
@@ -8,8 +8,6 @@ import {
   CheckCircle2,
   Circle,
   Minus,
-  SlidersHorizontal,
-  Tag,
   X
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -88,7 +86,7 @@ export default function Challenges() {
   const hasActiveFilters = selectedDifficulty !== "All" || selectedCategory !== "All" || selectedStatus !== "All" || selectedTags.length > 0 || searchQuery !== "";
 
   return (
-    <DashboardLayout>
+    <PublicLayout>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -260,6 +258,6 @@ export default function Challenges() {
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </PublicLayout>
   );
 }
