@@ -3,19 +3,27 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Swords, 
   Trophy, 
-  LogIn,
+  LayoutDashboard,
   Menu,
   X,
   Code2,
-  User
+  User,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-const navLinks = [
+const publicNavLinks = [
   { name: "Problems", href: "/challenges", icon: Swords },
   { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
+];
+
+const authNavLinks = [
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Problems", href: "/challenges", icon: Swords },
+  { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
+  { name: "Profile", href: "/profile", icon: User },
 ];
 
 interface PublicLayoutProps {
@@ -44,7 +52,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
+            {(isAuthenticated ? authNavLinks : publicNavLinks).map((link) => {
               const isActive = location.pathname === link.href;
               return (
                 <Link
@@ -67,14 +75,19 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
             {isAuthenticated ? (
-              <>
-                <Button variant="ghost" size="sm" asChild>
-                  <Link to="/dashboard">
-                    <User className="h-4 w-4 mr-2" />
-                    Dashboard
-                  </Link>
-                </Button>
-              </>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => {
+                  localStorage.removeItem("userAuth");
+                  localStorage.removeItem("userEmail");
+                  localStorage.removeItem("userName");
+                  window.location.href = "/";
+                }}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             ) : (
               <>
                 <Button variant="ghost" size="sm" asChild>
@@ -105,7 +118,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             className="md:hidden bg-card border-t border-border"
           >
             <div className="container mx-auto px-4 py-4 space-y-2">
-              {navLinks.map((link) => {
+              {(isAuthenticated ? authNavLinks : publicNavLinks).map((link) => {
                 const isActive = location.pathname === link.href;
                 return (
                   <Link
@@ -126,11 +139,18 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               })}
               <div className="pt-4 border-t border-border space-y-2">
                 {isAuthenticated ? (
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/dashboard">
-                      <User className="h-4 w-4 mr-2" />
-                      Dashboard
-                    </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      localStorage.removeItem("userAuth");
+                      localStorage.removeItem("userEmail");
+                      localStorage.removeItem("userName");
+                      window.location.href = "/";
+                    }}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
                   </Button>
                 ) : (
                   <>
