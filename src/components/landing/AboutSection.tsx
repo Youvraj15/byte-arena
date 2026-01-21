@@ -65,39 +65,6 @@ export function AboutSection() {
               or just love coding challenges, Byte Arena is your arena.
             </p>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="text-center"
-              >
-                <div className="font-display text-3xl md:text-4xl font-bold text-primary">500+</div>
-                <div className="text-sm text-secondary-foreground/60">Students</div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="text-center"
-              >
-                <div className="font-display text-3xl md:text-4xl font-bold text-primary">150+</div>
-                <div className="text-sm text-secondary-foreground/60">Problems</div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                className="text-center"
-              >
-                <div className="font-display text-3xl md:text-4xl font-bold text-primary">10+</div>
-                <div className="text-sm text-secondary-foreground/60">Colleges</div>
-              </motion.div>
-            </div>
           </motion.div>
 
           {/* Right - Values grid */}
