@@ -1,90 +1,95 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, Zap, Trophy, Users, ChevronRight, Sparkles } from "lucide-react";
-
-const features = [
-  {
-    icon: Code,
-    title: "1000+ Problems",
-    description: "From beginner to advanced, covering all essential algorithms and data structures.",
-  },
-  {
-    icon: Zap,
-    title: "Real-time Execution",
-    description: "Run your code instantly with our lightning-fast execution engine.",
-  },
-  {
-    icon: Trophy,
-    title: "Compete & Climb",
-    description: "Compete in challenges, earn points, and climb the global leaderboard.",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description: "Join thousands of developers practicing and learning together.",
-  },
-];
+import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function HeroSection() {
   return (
-    <section className="relative h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden">
-      {/* Background Effects */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-16">
+      {/* Animated gradient background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[100px] animate-pulse-soft" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[80px] animate-pulse-soft" style={{ animationDelay: "1s" }} />
-        
-        {/* Grid Pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                             linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
-          }}
-        />
+        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-primary/20 via-transparent to-transparent rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-cyan-500/20 via-transparent to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
+      </div>
 
-        {/* Radial gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background" />
+      {/* Grid pattern overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `linear-gradient(to right, hsl(var(--foreground)) 1px, transparent 1px),
+                           linear-gradient(to bottom, hsl(var(--foreground)) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}
+      />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-primary/40 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.2, 0.8, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex justify-center mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary mb-8"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">Your coding journey starts here</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
-            </div>
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">New: Real-time Code Battles Now Live</span>
+            <ArrowRight className="w-4 h-4" />
           </motion.div>
 
-          {/* Heading */}
+          {/* Main heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center font-display text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-[1.1] tracking-tight"
+            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-tight"
           >
-            Master algorithms.{" "}
-            <span className="text-gradient">Level up</span> your skills.
+            Code.{" "}
+            <span className="relative">
+              <span className="text-gradient">Compete.</span>
+              <motion.span
+                className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-cyan-400 rounded-full"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              />
+            </span>{" "}
+            <br className="hidden md:block" />
+            Conquer.
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Subheading */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Practice coding problems, prepare for interviews, and compete with developers worldwide. 
-            The best way to become a better programmer.
+            The ultimate competitive coding platform for students. 
+            Sharpen your skills, challenge your peers, and climb the leaderboard.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -92,48 +97,131 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-20"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Button size="lg" className="h-12 px-8 text-base font-medium" asChild>
-              <Link to="/register">
-                Start Practicing Free
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="h-12 px-8 text-base font-medium" asChild>
-              <Link to="/challenges">Explore Problems</Link>
+            <Link to="/register">
+              <Button size="lg" className="group text-base px-8 py-6 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25">
+                Start Coding Now
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="text-base px-8 py-6 border-border hover:bg-accent group"
+              onClick={() => document.getElementById('demo-video')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
+              Watch Demo
             </Button>
           </motion.div>
 
-          {/* Features Grid */}
+          {/* Hero visual - Code editor mockup */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative max-w-4xl mx-auto"
           >
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="group p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm hover:bg-card hover:border-primary/30 transition-all duration-300"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="h-5 w-5" />
+            {/* Glow effect */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-primary/20 rounded-2xl blur-2xl opacity-50" />
+            
+            {/* Code editor mockup */}
+            <div className="relative bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+              {/* Window controls */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </motion.div>
-            ))}
+                <span className="text-xs text-muted-foreground ml-4 font-mono">solution.cpp</span>
+              </div>
+              
+              {/* Code content */}
+              <div className="p-6 font-mono text-sm text-left">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  <span className="text-primary">#include</span>
+                  <span className="text-muted-foreground">&lt;bits/stdc++.h&gt;</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  className="mt-1"
+                >
+                  <span className="text-primary">using namespace</span>
+                  <span className="text-cyan-400"> std</span>
+                  <span className="text-muted-foreground">;</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 }}
+                  className="mt-4"
+                >
+                  <span className="text-primary">int</span>
+                  <span className="text-cyan-400"> main</span>
+                  <span className="text-muted-foreground">() {"{"}</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                  className="ml-4 mt-1"
+                >
+                  <span className="text-muted-foreground/60">// Your solution starts here...</span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 1 }}
+                  className="ml-4 mt-1 flex items-center"
+                >
+                  <span className="text-foreground">|</span>
+                  <motion.span
+                    className="w-2 h-5 bg-primary ml-0.5"
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 1.1 }}
+                  className="mt-1"
+                >
+                  <span className="text-muted-foreground">{"}"}</span>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
-
         </div>
       </div>
 
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+      >
+        <motion.div
+          className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center"
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <motion.div
+            className="w-1.5 h-3 bg-primary rounded-full mt-2"
+            animate={{ y: [0, 8, 0], opacity: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

@@ -5,32 +5,32 @@ const features = [
   {
     icon: Zap,
     title: "Real-Time Battles",
-    description: "Compete head-to-head with developers in real-time coding battles. Race against the clock and your opponents.",
+    description: "Compete head-to-head with peers in real-time coding battles. Race against the clock and your classmates.",
   },
   {
     icon: Shield,
-    title: "Secure Authentication",
-    description: "Enterprise-grade security with JWT-based authentication. Your code and data are always protected.",
+    title: "Secure Platform",
+    description: "Your code and submissions are protected with modern security practices.",
   },
   {
     icon: Trophy,
-    title: "Rankings & Rewards",
-    description: "Climb the global leaderboard, earn badges, and unlock exclusive rewards as you progress.",
+    title: "Rankings & Certificates",
+    description: "Climb the leaderboard, earn certificates, and get recognized for your achievements.",
   },
   {
     icon: BarChart3,
-    title: "Performance Analytics",
-    description: "Track your progress with detailed analytics. Identify strengths and areas for improvement.",
+    title: "Progress Tracking",
+    description: "Track your improvement with detailed analytics and performance insights.",
   },
   {
     icon: Users,
-    title: "Global Community",
-    description: "Join a thriving community of 50,000+ developers. Share solutions and learn from the best.",
+    title: "Student Community",
+    description: "Join a community of 500+ students. Share solutions and learn together.",
   },
   {
     icon: Clock,
-    title: "Async Challenges",
-    description: "Can't compete live? Take on challenges at your own pace with our async competition mode.",
+    title: "Practice Anytime",
+    description: "Take on challenges at your own pace with our comprehensive problem library.",
   },
 ];
 
