@@ -2,10 +2,10 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 const stats = [
-  { value: 50000, suffix: "+", label: "Active Developers", duration: 2 },
-  { value: 1000000, suffix: "+", label: "Challenges Completed", duration: 2.5 },
-  { value: 500, suffix: "+", label: "Coding Challenges", duration: 1.5 },
-  { value: 99.9, suffix: "%", label: "Uptime", duration: 2 },
+  { value: 500, suffix: "+", label: "Active Students", duration: 2 },
+  { value: 5000, suffix: "+", label: "Submissions", duration: 2.5 },
+  { value: 150, suffix: "+", label: "Problems", duration: 1.5 },
+  { value: 10, suffix: "+", label: "Colleges", duration: 2 },
 ];
 
 function AnimatedNumber({ value, suffix, duration }: { value: number; suffix: string; duration: number }) {

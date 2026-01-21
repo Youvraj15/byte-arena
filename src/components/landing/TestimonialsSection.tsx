@@ -3,24 +3,24 @@ import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    content: "Byte Arena completely transformed how I approach coding challenges. The real-time battles are addictive, and I've improved more in 3 months than I did in a year of solo practice.",
-    author: "Sarah Chen",
-    role: "Senior Developer at Google",
-    avatar: "SC",
+    content: "Byte Arena helped me crack my placement interviews! The practice problems were exactly what I needed to build confidence in DSA.",
+    author: "Arjun Sharma",
+    role: "CSE Student, IIT Delhi",
+    avatar: "AS",
     rating: 5,
   },
   {
-    content: "The analytics dashboard is incredibly detailed. I can see exactly where I need to improve, and the community is super supportive. Best investment in my coding career.",
-    author: "Marcus Johnson",
-    role: "Full Stack Engineer",
-    avatar: "MJ",
+    content: "I love the weekly contests! They push me to think faster and write cleaner code. My problem-solving skills have improved dramatically.",
+    author: "Priya Patel",
+    role: "IT Student, NIT Trichy",
+    avatar: "PP",
     rating: 5,
   },
   {
-    content: "Finally, a platform that makes competitive coding fun and accessible. The async challenges are perfect for my busy schedule, and the leaderboard keeps me motivated.",
-    author: "Elena Rodriguez",
-    role: "Tech Lead at Stripe",
-    avatar: "ER",
+    content: "The real-time battles with classmates make coding so much more fun. It's like gaming but you're actually learning valuable skills!",
+    author: "Rahul Verma",
+    role: "ECE Student, BITS Pilani",
+    avatar: "RV",
     rating: 5,
   },
 ];
