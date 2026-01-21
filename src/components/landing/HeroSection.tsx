@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function HeroSection() {
@@ -48,17 +48,6 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary mb-8"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span className="text-sm font-medium">New: Real-time Code Battles Now Live</span>
-            <ArrowRight className="w-4 h-4" />
-          </motion.div>
 
           {/* Main heading */}
           <motion.h1
@@ -105,15 +94,16 @@ export function HeroSection() {
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="text-base px-8 py-6 border-border hover:bg-accent group"
-              onClick={() => document.getElementById('demo-video')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              <Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-110" />
-              Watch Demo
-            </Button>
+            <Link to="/challenges">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-base px-8 py-6 border-border hover:bg-accent group"
+              >
+                Explore Problems
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Hero visual - Code editor mockup */}
