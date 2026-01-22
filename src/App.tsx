@@ -10,6 +10,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Challenges from "./pages/Challenges";
 import ChallengeSolve from "./pages/ChallengeSolve";
+import Contests from "./pages/Contests";
+import ContestDetail from "./pages/ContestDetail";
 import Leaderboard from "./pages/Leaderboard";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
@@ -33,6 +35,8 @@ const App = () => (
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/challenges/:id" element={<ChallengeSolve />} />
+          <Route path="/contests" element={<Contests />} />
+          <Route path="/contests/:id" element={<ContestDetail />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/admin" element={<Admin />} />
