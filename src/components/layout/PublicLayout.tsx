@@ -8,7 +8,8 @@ import {
   X,
   Code2,
   User,
-  LogOut
+  LogOut,
+  Calendar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,12 +17,14 @@ import { useState } from "react";
 
 const publicNavLinks = [
   { name: "Problems", href: "/challenges", icon: Swords },
+  { name: "Contests", href: "/contests", icon: Calendar },
   { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
 ];
 
 const authNavLinks = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Problems", href: "/challenges", icon: Swords },
+  { name: "Contests", href: "/contests", icon: Calendar },
   { name: "Leaderboard", href: "/leaderboard", icon: Trophy },
   { name: "Profile", href: "/profile", icon: User },
 ];
