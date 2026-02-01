@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
-import { Code2, Lock, Mail, Eye, EyeOff, Shield } from "lucide-react";
+import { Code2, Lock, Mail, Eye, EyeOff, Shield, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+
+// Mock admin credentials - in production this would be handled by backend
+const adminCredentials = [
+  { email: "superadmin@bytearena.com", password: "superadmin123", role: "superadmin", name: "Super Admin" },
+  { email: "admin@bytearena.com", password: "admin123", role: "admin", name: "Admin User" },
+  { email: "teacher@college.edu", password: "teacher123", role: "admin", name: "Teacher Admin" },
+];
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -21,11 +28,19 @@ export default function AdminLogin() {
     // Simulate authentication
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Mock admin credentials
-    if (email === "admin@bytearena.com" && password === "admin123") {
+    // Check credentials
+    const admin = adminCredentials.find(
+      (a) => a.email === email && a.password === password
+    );
+
+    if (admin) {
       localStorage.setItem("adminAuth", "true");
+      localStorage.setItem("adminEmail", admin.email);
+      localStorage.setItem("adminRole", admin.role);
+      localStorage.setItem("adminName", admin.name);
+      
       toast({
-        title: "Welcome, Admin!",
+        title: admin.role === "superadmin" ? "Welcome, Super Admin!" : "Welcome, Admin!",
         description: "You have successfully logged in.",
       });
       navigate("/admin");
@@ -125,14 +140,36 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-            <p className="text-xs text-muted-foreground text-center">
-              <strong>Demo Credentials:</strong>
-              <br />
-              Email: admin@bytearena.com
-              <br />
-              Password: admin123
-            </p>
+          <div className="mt-6 space-y-3">
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Crown className="h-4 w-4 text-primary" />
+                <span className="text-xs font-semibold text-primary">Super Admin</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Email: superadmin@bytearena.com
+                <br />
+                Password: superadmin123
+              </p>
+              <p className="text-xs text-primary/70 mt-1">
+                Can manage all admins, problems, and contests
+              </p>
+            </div>
+
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield className="h-4 w-4 text-muted-foreground" />
+                <span className="text-xs font-semibold text-muted-foreground">Regular Admin</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Email: admin@bytearena.com | Password: admin123
+                <br />
+                Email: teacher@college.edu | Password: teacher123
+              </p>
+              <p className="text-xs text-muted-foreground/70 mt-1">
+                Can only see and manage their own problems/contests
+              </p>
+            </div>
           </div>
 
           <div className="mt-6 text-center">
