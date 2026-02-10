@@ -252,6 +252,13 @@ export default function Admin() {
   const [showAddAdminDialog, setShowAddAdminDialog] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<StudentDetail | null>(null);
   const [currentAdminEmail, setCurrentAdminEmail] = useState("");
+  const [addProblemTab, setAddProblemTab] = useState<"existing" | "new">("existing");
+  const [newContestProblem, setNewContestProblem] = useState({
+    title: "",
+    difficulty: "Easy",
+    category: "Arrays",
+    description: "",
+  });
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   // New admin form state
@@ -428,6 +435,23 @@ export default function Admin() {
       });
     }
     setShowAddProblemDialog(false);
+  };
+
+  const createAndAddProblemToContest = () => {
+    const newProblem: Challenge = {
+      id: Date.now(),
+      title: newContestProblem.title,
+      difficulty: newContestProblem.difficulty,
+      category: newContestProblem.category,
+      description: newContestProblem.description,
+      testCases: [],
+      solvers: [],
+      createdBy: currentAdminEmail,
+    };
+    setChallenges([...challenges, newProblem]);
+    addProblemToContest(newProblem);
+    setNewContestProblem({ title: "", difficulty: "Easy", category: "Arrays", description: "" });
+    setAddProblemTab("existing");
   };
 
   const removeProblemFromContest = (problemId: number) => {
@@ -1222,48 +1246,138 @@ export default function Admin() {
             </div>
 
             {/* Add Problem Dialog */}
-            <Dialog open={showAddProblemDialog} onOpenChange={setShowAddProblemDialog}>
+            <Dialog open={showAddProblemDialog} onOpenChange={(open) => { setShowAddProblemDialog(open); if (!open) setAddProblemTab("existing"); }}>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Add Problem to Contest</DialogTitle>
                   <DialogDescription>
-                    Select an existing problem to add to this contest
+                    Add an existing problem or create a new one for this contest
                   </DialogDescription>
                 </DialogHeader>
-                <div className="max-h-96 overflow-y-auto space-y-2 py-4">
-                  {availableProblems.length > 0 ? (
-                    availableProblems.map((problem) => (
-                      <div 
-                        key={problem.id} 
-                        className="flex items-center justify-between p-3 bg-muted/50 rounded-lg hover:bg-muted cursor-pointer transition-colors"
-                        onClick={() => addProblemToContest(problem)}
-                      >
-                        <div>
-                          <h4 className="font-medium text-foreground">{problem.title}</h4>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="outline" className={cn(
-                              "text-xs",
-                              problem.difficulty === "Easy" && "text-success border-success/30",
-                              problem.difficulty === "Medium" && "text-warning border-warning/30",
-                              problem.difficulty === "Hard" && "text-destructive border-destructive/30"
-                            )}>
-                              {problem.difficulty}
-                            </Badge>
-                            <Badge variant="secondary" className="text-xs">{problem.category}</Badge>
-                          </div>
-                        </div>
-                        <Button size="sm" variant="outline">
-                          <Plus className="h-4 w-4 mr-1" />
-                          Add
-                        </Button>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-center text-muted-foreground py-8">
-                      All available problems have been added to this contest.
-                    </p>
-                  )}
+
+                {/* Tabs */}
+                <div className="flex gap-1 border-b border-border mb-4">
+                  <button
+                    onClick={() => setAddProblemTab("existing")}
+                    className={cn(
+                      "px-4 py-2 text-sm font-medium transition-colors relative",
+                      addProblemTab === "existing" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Existing Problems
+                    {addProblemTab === "existing" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
+                  </button>
+                  <button
+                    onClick={() => setAddProblemTab("new")}
+                    className={cn(
+                      "px-4 py-2 text-sm font-medium transition-colors relative",
+                      addProblemTab === "new" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <Plus className="h-3.5 w-3.5" />
+                      Create New
+                    </div>
+                    {addProblemTab === "new" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
+                  </button>
                 </div>
+
+                {addProblemTab === "existing" ? (
+                  <div className="max-h-96 overflow-y-auto space-y-2">
+                    {availableProblems.length > 0 ? (
+                      availableProblems.map((problem) => (
+                        <div 
+                          key={problem.id} 
+                          className="flex items-center justify-between p-3 bg-muted/50 rounded-lg hover:bg-muted cursor-pointer transition-colors"
+                          onClick={() => addProblemToContest(problem)}
+                        >
+                          <div>
+                            <h4 className="font-medium text-foreground">{problem.title}</h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Badge variant="outline" className={cn(
+                                "text-xs",
+                                problem.difficulty === "Easy" && "text-success border-success/30",
+                                problem.difficulty === "Medium" && "text-warning border-warning/30",
+                                problem.difficulty === "Hard" && "text-destructive border-destructive/30"
+                              )}>
+                                {problem.difficulty}
+                              </Badge>
+                              <Badge variant="secondary" className="text-xs">{problem.category}</Badge>
+                            </div>
+                          </div>
+                          <Button size="sm" variant="outline">
+                            <Plus className="h-4 w-4 mr-1" />
+                            Add
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-muted-foreground py-8">
+                        All available problems have been added to this contest.
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium text-foreground mb-2 block">Problem Title</label>
+                      <Input
+                        value={newContestProblem.title}
+                        onChange={(e) => setNewContestProblem({ ...newContestProblem, title: e.target.value })}
+                        placeholder="Enter problem title..."
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium text-foreground mb-2 block">Difficulty</label>
+                        <div className="relative">
+                          <select
+                            value={newContestProblem.difficulty}
+                            onChange={(e) => setNewContestProblem({ ...newContestProblem, difficulty: e.target.value })}
+                            className="w-full h-10 pl-4 pr-10 rounded-lg border border-input bg-background text-sm appearance-none cursor-pointer"
+                          >
+                            {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+                          </select>
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-foreground mb-2 block">Category</label>
+                        <div className="relative">
+                          <select
+                            value={newContestProblem.category}
+                            onChange={(e) => setNewContestProblem({ ...newContestProblem, category: e.target.value })}
+                            className="w-full h-10 pl-4 pr-10 rounded-lg border border-input bg-background text-sm appearance-none cursor-pointer"
+                          >
+                            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-foreground mb-2 block">Description</label>
+                      <Textarea
+                        value={newContestProblem.description}
+                        onChange={(e) => setNewContestProblem({ ...newContestProblem, description: e.target.value })}
+                        placeholder="Enter problem description..."
+                        rows={4}
+                      />
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2">
+                      <Button variant="outline" onClick={() => setAddProblemTab("existing")}>
+                        Cancel
+                      </Button>
+                      <Button 
+                        onClick={createAndAddProblemToContest}
+                        disabled={!newContestProblem.title || !newContestProblem.description}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Create & Add to Contest
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </DialogContent>
             </Dialog>
           </div>
