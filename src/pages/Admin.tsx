@@ -37,6 +37,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { StudentDetailModal, generateStudentDetail, type StudentDetail } from "@/components/admin/StudentDetailModal";
 
 const difficulties = ["Easy", "Medium", "Hard"];
 const categories = ["Arrays", "Strings", "Dynamic Programming", "Graphs", "Trees", "Math", "Two Pointers", "Binary Search", "Linked List", "Backtracking"];
@@ -249,6 +250,7 @@ export default function Admin() {
   const [generatedTestCases, setGeneratedTestCases] = useState<TestCase[]>([]);
   const [showAddProblemDialog, setShowAddProblemDialog] = useState(false);
   const [showAddAdminDialog, setShowAddAdminDialog] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<StudentDetail | null>(null);
   const [currentAdminEmail, setCurrentAdminEmail] = useState("");
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
@@ -665,7 +667,8 @@ export default function Admin() {
                   key={student.id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-colors"
+                  className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-colors cursor-pointer"
+                  onClick={() => setSelectedStudent(generateStudentDetail(student))}
                 >
                   <div className="flex items-start gap-3">
                     <div className="relative">
@@ -729,6 +732,12 @@ export default function Admin() {
                 </motion.div>
               ))}
             </div>
+
+            <StudentDetailModal
+              student={selectedStudent}
+              open={!!selectedStudent}
+              onClose={() => setSelectedStudent(null)}
+            />
           </motion.div>
         )}
 
