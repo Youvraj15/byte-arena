@@ -76,12 +76,13 @@ export function HeroSection() {
   const textOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 0.3], [0, -80]);
 
-  // Typing effect
+  // Typing effect - starts after initial delay
   useEffect(() => {
     if (visibleLines >= allLines.length) return;
+    const delay = visibleLines === 0 ? 800 : 80;
     const timeout = setTimeout(() => {
       setVisibleLines((v) => v + 1);
-    }, 60);
+    }, delay);
     return () => clearTimeout(timeout);
   }, [visibleLines]);
 
