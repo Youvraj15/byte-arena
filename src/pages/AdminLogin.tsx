@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
-import { Code2, Lock, Mail, Eye, EyeOff, Shield, Crown } from "lucide-react";
+import { Code2, Lock, Mail, Eye, EyeOff, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -140,37 +140,7 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-6 space-y-3">
-            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Crown className="h-4 w-4 text-primary" />
-                <span className="text-xs font-semibold text-primary">Super Admin</span>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Email: superadmin@bytearena.com
-                <br />
-                Password: superadmin123
-              </p>
-              <p className="text-xs text-primary/70 mt-1">
-                Can manage all admins, problems, and contests
-              </p>
-            </div>
 
-            <div className="p-4 bg-muted/50 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Shield className="h-4 w-4 text-muted-foreground" />
-                <span className="text-xs font-semibold text-muted-foreground">Regular Admin</span>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Email: admin@bytearena.com | Password: admin123
-                <br />
-                Email: teacher@college.edu | Password: teacher123
-              </p>
-              <p className="text-xs text-muted-foreground/70 mt-1">
-                Can only see and manage their own problems/contests
-              </p>
-            </div>
-          </div>
 
           <div className="mt-6 text-center">
             <Link
