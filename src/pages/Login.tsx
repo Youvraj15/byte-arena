@@ -95,14 +95,7 @@ export default function Login() {
             Sign in to continue your coding journey
           </p>
 
-          {/* Demo Credentials */}
-          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20 mb-6">
-            <p className="text-sm font-medium text-primary mb-2">Demo Credentials</p>
-            <div className="text-sm text-muted-foreground space-y-1">
-              <p><span className="text-foreground font-mono">Email:</span> student@college.edu</p>
-              <p><span className="text-foreground font-mono">Password:</span> demo123</p>
-            </div>
-          </div>
+
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
