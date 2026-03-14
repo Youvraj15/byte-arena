@@ -4,148 +4,66 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 
-const bstCode = [
-  { text: '#include', cls: 'text-primary' },
-  { text: ' <bits/stdc++.h>', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: 'using namespace', cls: 'text-primary' },
-  { text: ' std', cls: 'text-accent-foreground' },
-  { text: ';', cls: 'text-muted-foreground' },
-  { break: true },
-  { empty: true },
-  { text: 'struct', cls: 'text-primary' },
-  { text: ' Node {', cls: 'text-foreground' },
-  { break: true },
-  { text: '    int', cls: 'text-primary', indent: true },
-  { text: ' data;', cls: 'text-foreground' },
-  { break: true },
-  { text: '    Node', cls: 'text-accent-foreground', indent: true },
-  { text: ' *left, *right;', cls: 'text-foreground' },
-  { break: true },
-  { text: '    Node', cls: 'text-accent-foreground', indent: true },
-  { text: '(', cls: 'text-muted-foreground' },
-  { text: 'int', cls: 'text-primary' },
-  { text: ' val) : data(val), left(', cls: 'text-foreground' },
-  { text: 'nullptr', cls: 'text-primary' },
-  { text: '), right(', cls: 'text-foreground' },
-  { text: 'nullptr', cls: 'text-primary' },
-  { text: ') {}', cls: 'text-foreground' },
-  { break: true },
-  { text: '};', cls: 'text-foreground' },
-  { break: true },
-  { empty: true },
-  { text: 'Node*', cls: 'text-accent-foreground' },
-  { text: ' insert', cls: 'text-foreground' },
-  { text: '(Node* root, ', cls: 'text-muted-foreground' },
-  { text: 'int', cls: 'text-primary' },
-  { text: ' val) {', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    if', cls: 'text-primary', indent: true },
-  { text: ' (!root) ', cls: 'text-foreground' },
-  { text: 'return new', cls: 'text-primary' },
-  { text: ' Node(val);', cls: 'text-foreground' },
-  { break: true },
-  { text: '    if', cls: 'text-primary', indent: true },
-  { text: ' (val < root->data)', cls: 'text-foreground' },
-  { break: true },
-  { text: '        root->left = insert(root->left, val);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '    else', cls: 'text-primary', indent: true },
-  { break: true },
-  { text: '        root->right = insert(root->right, val);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '    return', cls: 'text-primary', indent: true },
-  { text: ' root;', cls: 'text-foreground' },
-  { break: true },
-  { text: '}', cls: 'text-muted-foreground' },
-  { break: true },
-  { empty: true },
-  { text: 'void', cls: 'text-primary' },
-  { text: ' inorder', cls: 'text-foreground' },
-  { text: '(Node* root) {', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    if', cls: 'text-primary', indent: true },
-  { text: ' (!root) ', cls: 'text-foreground' },
-  { text: 'return', cls: 'text-primary' },
-  { text: ';', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    inorder(root->left);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '    cout', cls: 'text-accent-foreground', indent: true },
-  { text: ' << root->data << ', cls: 'text-foreground' },
-  { text: '" "', cls: 'text-success' },
-  { text: ';', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    inorder(root->right);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '}', cls: 'text-muted-foreground' },
-  { break: true },
-  { empty: true },
-  { text: 'int', cls: 'text-primary' },
-  { text: ' main', cls: 'text-foreground' },
-  { text: '() {', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    Node* root = ', cls: 'text-foreground', indent: true },
-  { text: 'nullptr', cls: 'text-primary' },
-  { text: ';', cls: 'text-muted-foreground' },
-  { break: true },
-  { text: '    int', cls: 'text-primary', indent: true },
-  { text: ' keys[] = {', cls: 'text-foreground' },
-  { text: '50, 30, 70, 20, 40, 60, 80', cls: 'text-accent-foreground' },
-  { text: '};', cls: 'text-foreground' },
-  { break: true },
-  { text: '    for', cls: 'text-primary', indent: true },
-  { text: ' (', cls: 'text-muted-foreground' },
-  { text: 'int', cls: 'text-primary' },
-  { text: ' key : keys)', cls: 'text-foreground' },
-  { break: true },
-  { text: '        root = insert(root, key);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '    inorder(root);', cls: 'text-foreground', indent: true },
-  { break: true },
-  { text: '    return', cls: 'text-primary', indent: true },
-  { text: ' 0;', cls: 'text-foreground' },
-  { break: true },
-  { text: '}', cls: 'text-muted-foreground' },
-];
+const bstCode = `#include <bits/stdc++.h>
+using namespace std;
 
-function CodeLine({ tokens, delay }: { tokens: typeof bstCode; delay: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3, delay }}
-      className="leading-6"
-    >
-      {tokens.map((t, i) => (
-        <span key={i} className={t.cls}>{t.text}</span>
-      ))}
-    </motion.div>
-  );
+struct Node {
+    int data;
+    Node *left, *right;
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+Node* insert(Node* root, int val) {
+    if (!root) return new Node(val);
+    if (val < root->data)
+        root->left = insert(root->left, val);
+    else
+        root->right = insert(root->right, val);
+    return root;
 }
 
-function renderCodeLines() {
-  const lines: { tokens: typeof bstCode }[] = [];
-  let currentLine: typeof bstCode = [];
+void inorder(Node* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
 
-  bstCode.forEach((token) => {
-    if ('break' in token) {
-      lines.push({ tokens: [...currentLine] });
-      currentLine = [];
-    } else if ('empty' in token) {
-      lines.push({ tokens: [] });
+int main() {
+    Node* root = nullptr;
+    int keys[] = {50, 30, 70, 20, 40, 60, 80};
+    for (int key : keys)
+        root = insert(root, key);
+    inorder(root);
+    return 0;
+}`;
+
+const keywords = ['#include', 'using', 'namespace', 'struct', 'int', 'if', 'else', 'return', 'void', 'for', 'new', 'nullptr'];
+const types = ['Node', 'Node*'];
+
+function highlightLine(line: string) {
+  // Simple syntax highlighting
+  const parts: { text: string; cls: string }[] = [];
+  const tokens = line.split(/(\b|\s+|[{}();,<>*=])/);
+  
+  tokens.forEach((token) => {
+    if (keywords.includes(token)) {
+      parts.push({ text: token, cls: 'text-primary' });
+    } else if (types.includes(token)) {
+      parts.push({ text: token, cls: 'text-accent-foreground' });
+    } else if (/^".*"$/.test(token)) {
+      parts.push({ text: token, cls: 'text-green-400' });
+    } else if (/^\d+$/.test(token)) {
+      parts.push({ text: token, cls: 'text-accent-foreground' });
     } else {
-      currentLine.push(token);
+      parts.push({ text: token, cls: 'text-foreground' });
     }
   });
-  if (currentLine.length > 0) {
-    lines.push({ tokens: currentLine });
-  }
 
-  return lines;
+  return parts;
 }
 
-const codeLines = renderCodeLines();
+const codeLines = bstCode.split('\n');
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -154,21 +72,23 @@ export function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  const editorY = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const editorScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.02]);
-  const bgParallax = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  // Editor starts below text, then rises to fill the viewport
+  const editorY = useTransform(scrollYProgress, [0, 0.5], [0, -200]);
+  const editorScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.15]);
+  const editorOpacity = useTransform(scrollYProgress, [0.3, 0.6], [1, 0.95]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[140vh] flex items-start justify-center overflow-hidden bg-background pt-16"
+      className="relative min-h-[200vh] flex items-start justify-center overflow-hidden bg-background pt-16"
     >
       {/* Animated gradient background */}
-      <motion.div className="absolute inset-0 overflow-hidden" style={{ y: bgParallax }}>
+      <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-primary/20 via-transparent to-transparent rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-accent/20 via-transparent to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
-      </motion.div>
+      </div>
 
       {/* Grid pattern overlay */}
       <div
@@ -180,120 +100,97 @@ export function HeroSection() {
         }}
       />
 
-      {/* Floating particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/40 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
       <div className="container mx-auto px-4 relative z-10 pt-16 md:pt-24">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Main heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-tight"
-          >
-            Code.{" "}
-            <span className="relative">
-              <span className="text-gradient">Compete.</span>
-              <motion.span
-                className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent-foreground rounded-full"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              />
-            </span>{" "}
-            <br className="hidden md:block" />
-            Conquer.
-          </motion.h1>
+          {/* Main heading - fades out on scroll */}
+          <motion.div style={{ opacity: textOpacity, y: textY }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-tight"
+            >
+              Code.{" "}
+              <span className="relative">
+                <span className="text-gradient">Compete.</span>
+                <motion.span
+                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent-foreground rounded-full"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                />
+              </span>{" "}
+              <br className="hidden md:block" />
+              Conquer.
+            </motion.h1>
 
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            The ultimate competitive coding platform for students.
-            Sharpen your skills, challenge your peers, and climb the leaderboard.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+            >
+              The ultimate competitive coding platform for students.
+              Sharpen your skills, challenge your peers, and climb the leaderboard.
+            </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          >
-            <Link to="/register">
-              <Button size="lg" className="group text-base px-8 py-6 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25">
-                Start Coding Now
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link to="/challenges">
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-base px-8 py-6 border-border hover:bg-accent group"
-              >
-                Explore Problems
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+            >
+              <Link to="/register">
+                <Button size="lg" className="group text-base px-8 py-6 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25">
+                  Start Coding Now
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+              <Link to="/challenges">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base px-8 py-6 border-border hover:bg-accent group"
+                >
+                  Explore Problems
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
 
-          {/* Hero visual - Code editor with scroll parallax */}
+          {/* Code editor - rises and expands to overshadow the screen */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            style={{ y: editorY, scale: editorScale }}
-            className="relative max-w-4xl mx-auto"
+            style={{ y: editorY, scale: editorScale, opacity: editorOpacity }}
+            className="relative w-full mx-auto sticky top-8"
           >
             {/* Glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-2xl blur-2xl opacity-50 animate-breathe" />
+            <div className="absolute -inset-6 bg-gradient-to-r from-primary/30 via-accent/20 to-primary/30 rounded-3xl blur-3xl opacity-60 animate-breathe" />
 
-            {/* Code editor mockup */}
+            {/* Code editor mockup - large and immersive */}
             <div className="relative bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
               {/* Window controls */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
+              <div className="flex items-center gap-2 px-5 py-3.5 bg-secondary/50 border-b border-border">
                 <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-destructive/80" />
-                  <div className="w-3 h-3 rounded-full bg-warning/80" />
-                  <div className="w-3 h-3 rounded-full bg-success/80" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-destructive/80" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-warning/80" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-success/80" />
                 </div>
-                <span className="text-xs text-muted-foreground ml-4 font-mono">solution.cpp — Binary Search Tree</span>
+                <span className="text-sm text-muted-foreground ml-4 font-mono">solution.cpp — Binary Search Tree</span>
                 <div className="ml-auto flex items-center gap-2">
-                  <span className="text-[10px] text-muted-foreground/60 font-mono px-2 py-0.5 bg-muted rounded">C++17</span>
+                  <span className="text-xs text-muted-foreground/60 font-mono px-2 py-0.5 bg-muted rounded">C++17</span>
                 </div>
               </div>
 
               {/* Code content with line numbers */}
-              <div className="flex font-mono text-sm text-left max-h-[420px] overflow-hidden">
+              <div className="flex font-mono text-sm md:text-base text-left min-h-[500px] max-h-[600px] overflow-hidden">
                 {/* Line numbers */}
-                <div className="py-4 px-3 bg-muted/30 border-r border-border select-none">
+                <div className="py-4 px-4 bg-muted/30 border-r border-border select-none">
                   {codeLines.map((_, i) => (
-                    <div key={i} className="leading-6 text-muted-foreground/40 text-right text-xs w-6">
+                    <div key={i} className="leading-7 text-muted-foreground/40 text-right text-xs md:text-sm w-8">
                       {i + 1}
                     </div>
                   ))}
@@ -302,28 +199,34 @@ export function HeroSection() {
                 {/* Code */}
                 <div className="p-4 flex-1 overflow-hidden">
                   {codeLines.map((line, i) => (
-                    <CodeLine key={i} tokens={line.tokens} delay={0.5 + i * 0.04} />
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.5 + i * 0.03 }}
+                      className="leading-7"
+                    >
+                      {line === '' ? (
+                        <span>&nbsp;</span>
+                      ) : (
+                        highlightLine(line).map((part, j) => (
+                          <span key={j} className={part.cls}>{part.text}</span>
+                        ))
+                      )}
+                    </motion.div>
                   ))}
-                  {/* Cursor */}
-                  <motion.div className="flex items-center leading-6">
-                    <motion.span
-                      className="w-2 h-5 bg-primary rounded-sm"
-                      animate={{ opacity: [1, 0] }}
-                      transition={{ duration: 0.8, repeat: Infinity }}
-                    />
-                  </motion.div>
                 </div>
               </div>
 
               {/* Status bar */}
-              <div className="flex items-center justify-between px-4 py-1.5 bg-secondary/50 border-t border-border text-[10px] text-muted-foreground/60 font-mono">
-                <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between px-5 py-2 bg-secondary/50 border-t border-border text-xs text-muted-foreground/60 font-mono">
+                <div className="flex items-center gap-4">
                   <span>Ln {codeLines.length}, Col 1</span>
                   <span>UTF-8</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                     Ready
                   </span>
                   <span>Spaces: 4</span>
@@ -333,26 +236,6 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <motion.div
-            className="w-1.5 h-3 bg-primary rounded-full mt-2"
-            animate={{ y: [0, 8, 0], opacity: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
