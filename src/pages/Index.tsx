@@ -6,6 +6,7 @@ import { ContestsSection } from "@/components/landing/ContestsSection";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { Footer } from "@/components/layout/Footer";
 
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
